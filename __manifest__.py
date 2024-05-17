@@ -19,7 +19,7 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-   'depends': ['base','sale','sale_management','account','purchase','stock'],
+   'depends': ['base','sale','sale_management','account','purchase','stock','bi_sale_purchase_discount_with_tax'],
 
     'data': [
         'report/inherit_sale_report.xml',
