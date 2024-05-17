@@ -14,7 +14,7 @@
                             </tr>
 
 							<t t-if="doc.discount_type == 'global' and doc.discount_amt != 0">
-									<tr class="border-black">
+									<tr class="border-black o_total">
 										<td>
 											<strong>atlaides llelums</strong>
 										</td>
@@ -24,13 +24,13 @@
 									</tr>
 							</t>
 
-				<t t-if="doc.discount_type == 'global' and doc.discount_amount != 0">
+				          <t t-if="doc.discount_type == 'global' and doc.discount_amount != 0">
                    
-                                <tr class="border-black">
+                                <tr class="border-black o_total">
                                     <td>
                                         <strong>
                                             <t t-if="doc.discount_method == 'per'">
-                                                Discount
+                                               Percentage discount
                                             </t>
                                             <t t-if="doc.discount_method == 'fixed'">
                                                 Fixed discount
@@ -39,16 +39,16 @@
                                     </td>
                                     <td class="text-right">
                                         <t t-if="doc.discount_method == 'per'">
-                                            <span t-field="doc.discount_amount" />&amp;nbsp;%&amp;nbsp;
-                                            <span t-field="doc.discount_total_amount" />&amp;nbsp;€
+                                            <span t-field="doc.discount_amount" /><span>%</span>
+                                            <span t-field="doc.discount_total_amount" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
                                         </t>
                                         <t t-if="doc.discount_method == 'fixed'">
-                                            <span t-field="doc.discount_amount" />&amp;nbsp;€
+                                            <span t-field="doc.discount_amount" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" />
                                         </t>
                                     </td>
                                 </tr>
                           
-                </t>
+                            </t>
 
                             <t t-foreach="doc.amount_by_group" t-as="amount_by_group">
                                 <tr style="">
