@@ -7,11 +7,21 @@
                     <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
                         <table class="table table-sm" >
                             <tr class="border-black o_subtotal" style="">
-                                <td><strong>Subtotal</strong></td>
+                                <td><strong>Kopā</strong></td>
                                 <td class="text-right">
                                     <span t-field="doc.amount_untaxed"/>
                                 </td>
                             </tr>
+							<t t-if="doc.discount_type == 'global'">
+					<tr class="border-black">
+						<td>
+							<strong>Discount</strong>
+						</td>
+						<td class="text-right">
+							<span t-field="doc.discount_amt" />
+						</td>
+					</tr>
+				</t>
                             <t t-foreach="doc.amount_by_group" t-as="amount_by_group">
                                 <tr style="">
                                     <t t-if="amount_by_group[3] == 1 and doc.amount_untaxed == amount_by_group[2]">
@@ -34,7 +44,7 @@
                                 </tr>
                             </t>
                             <tr class="border-black o_total">
-                                <td><strong>Total</strong></td>
+                                <td><strong>Summa</strong></td>
                                 <td class="text-right">
                                     <span t-field="doc.amount_total"/>
                                 </td>
