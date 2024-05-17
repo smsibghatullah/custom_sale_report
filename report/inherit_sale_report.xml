@@ -13,46 +13,42 @@
                                 </td>
                             </tr>
 
-							
-									<tr class="border-black o_total">
-									<t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
+							<t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
+									<tr class="border-black">
 										<td>
 											<strong>atlaides llelums</strong>
 										</td>
 										<td class="text-right">
 											<span t-field="doc.discount_amt" />
 										</td>
-										</t>
 									</tr>
-							
+							</t>
 
-				         
-                   
-                                <tr class="border-black o_total">
-								 <t t-if="doc.discount_type == 'global' and doc.discount_amount != 0.00">
-                                    <td>
-                                        <strong>
-                                            <t t-if="doc.discount_method == 'per'">
-                                               Percentage discount
-                                            </t>
-                                            <t t-if="doc.discount_method == 'fixed'">
-                                                Fixed discount
-                                            </t>
-                                        </strong>
-                                    </td>
-                                    <td class="text-right">
-                                        <t t-if="doc.discount_method == 'per'">
-                                            <span t-field="doc.discount_amt" /><span>%</span>
-                                            <span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
-                                        </t>
-                                        <t t-if="doc.discount_method == 'fixed'">
-                                            <span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" />
-                                        </t>
-                                    </td>
-									</t>
-                                </tr>
-                          
-                            
+						    <t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
+											<tr class="border-black">
+												<td>
+													<strong> Atlaides veids</strong>
+												</td>
+												<td class="text-right">
+													<span t-field="doc.discount_method" />
+												</td>
+											</tr>
+											<tr class="border-black">
+												<td>
+													<strong> Atlaides lielums</strong>
+												</td>
+												<td class="text-right">
+												<t t-if="doc.discount_method == 'per'">
+													<t t-esc="'%.2f' % doc.discount_amt" /><span>%</span>
+													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+												</t>
+												<t t-if="doc.discount_method == 'fixed'">
+													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" />
+												</t>
+											</td>
+											</tr>
+										
+							</t>
 
                             <t t-foreach="doc.amount_by_group" t-as="amount_by_group">
                                 <tr style="">
