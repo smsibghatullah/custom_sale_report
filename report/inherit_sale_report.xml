@@ -39,10 +39,10 @@
 												</td>
 												<td class="text-right">
 												<t t-if="doc.discount_method == 'per'">
-													<t t-esc="'%.2f' % doc.discount_amt" /><span>%</span>
+													<t t-esc="'%.2f' % doc.discount_amount" /><span>%</span>
 													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
 												</t>
-												<t t-if="doc.discount_method == 'fixed'">
+												<t t-if="doc.discount_method == 'fix'">
 													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" />
 												</t>
 											</td>
