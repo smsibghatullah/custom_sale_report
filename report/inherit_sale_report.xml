@@ -42,11 +42,11 @@
                                     </td>
                                     <td class="text-right">
                                         <t t-if="doc.discount_method == 'per'">
-                                            <span t-field="doc.discount_amount" /><span>%</span>
-                                            <span t-field="doc.discount_total_amount" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                            <span t-field="doc.discount_amt" /><span>%</span>
+                                            <span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
                                         </t>
                                         <t t-if="doc.discount_method == 'fixed'">
-                                            <span t-field="doc.discount_amount" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" />
+                                            <span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" />
                                         </t>
                                     </td>
 									</t>
