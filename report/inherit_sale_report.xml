@@ -13,20 +13,23 @@
                                 </td>
                             </tr>
 
-							<t t-if="doc.discount_type == 'global' and doc.discount_amt != 0">
+							
 									<tr class="border-black o_total">
+									<t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
 										<td>
 											<strong>atlaides llelums</strong>
 										</td>
 										<td class="text-right">
 											<span t-field="doc.discount_amt" />
 										</td>
+										</t>
 									</tr>
-							</t>
+							
 
-				          <t t-if="doc.discount_type == 'global' and doc.discount_amount != 0">
+				         
                    
                                 <tr class="border-black o_total">
+								 <t t-if="doc.discount_type == 'global' and doc.discount_amount != 0.00">
                                     <td>
                                         <strong>
                                             <t t-if="doc.discount_method == 'per'">
@@ -46,9 +49,10 @@
                                             <span t-field="doc.discount_amount" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" />
                                         </t>
                                     </td>
+									</t>
                                 </tr>
                           
-                            </t>
+                            
 
                             <t t-foreach="doc.amount_by_group" t-as="amount_by_group">
                                 <tr style="">
