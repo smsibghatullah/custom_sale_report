@@ -25,9 +25,7 @@
 							</t>
 
 				<t t-if="doc.discount_type == 'global' and doc.discount_amount != 0">
-                    <div class="row">
-                        <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'}">
-                            <table class="table table-sm">
+                   
                                 <tr class="border-black">
                                     <td>
                                         <strong>
@@ -49,9 +47,7 @@
                                         </t>
                                     </td>
                                 </tr>
-                            </table>
-                        </div>
-                    </div>
+                          
                 </t>
 
                             <t t-foreach="doc.amount_by_group" t-as="amount_by_group">
