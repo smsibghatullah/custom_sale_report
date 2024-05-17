@@ -1,11 +1,51 @@
-
-  <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <data> 
+    <data>
+        <record id="invoice_form_add_currency" model="ir.ui.view">
+            <field name="name">sale.order_form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
+                    <attribute name="widget">monetary</attribute>
+                    <attribute name="options">{"currency_field": "currency_id"}</attribute>
+                </xpath>
+            </field>
+        </record>
 
+        <record id="view_invoice_line_tree" model="ir.ui.view">
+            <field name="name">account.invoice_form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='price_unit']" position="attributes">
+                    <attribute name="widget">monetary</attribute>
+                    <attribute name="options">{"currency_field": "currency_id"}</attribute>
+                </xpath>
+            </field>
+        </record>
 
-  </data>
+           <record id="view_invoice_form_currency" model="ir.ui.view">
+            <field name="name">account.invoice_form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='amount_untaxed']" position="attributes">
+                    <attribute name="widget">monetary</attribute>
+                    <attribute name="options">{"currency_field": "currency_id"}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='amount_tax']" position="attributes">
+                    <attribute name="widget">monetary</attribute>
+                    <attribute name="options">{"currency_field": "currency_id"}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='amount_total']" position="attributes">
+                    <attribute name="widget">monetary</attribute>
+                    <attribute name="options">{"currency_field": "currency_id"}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='residual']" position="attributes">
+                    <attribute name="widget">monetary</attribute>
+                    <attribute name="options">{"currency_field": "currency_id"}</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
 </odoo>
-
-
-  

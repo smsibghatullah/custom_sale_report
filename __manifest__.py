@@ -19,14 +19,12 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-    # any module necessary for this one to work correctly
    'depends': ['base','sale','sale_management','account','purchase','stock'],
 
-    # always loaded
     'data': [
         'report/inherit_sale_report.xml',
+        'views/views.xml',
     ],
-    # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',
     ],
