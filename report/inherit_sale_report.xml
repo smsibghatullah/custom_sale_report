@@ -19,7 +19,7 @@
 											<tr class="border-black">
                                             <t t-if="doc.discount_method == 'per'">
 												<td>
-													<strong> Atlaide  <span><t t-esc="'%.2f' % doc.discount_amount" /><span>%</span></span></strong>
+													<strong> Atlaide  </strong><span><t t-esc="'%.2f' % doc.discount_amount" /><span>%</span></span>
 												</td>
 												<td class="text-right">
 													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
