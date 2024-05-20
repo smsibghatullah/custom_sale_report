@@ -63,7 +63,7 @@
                     </t>
 
                     <tr class="border-black o_total">
-                        <td><strong><t t-translation="Total">Total</t></strong></td>
+                        <td><strong><t t-translation="Summa">Summa</t></strong></td>
                         <td class="text-right">
                             <span t-field="doc.amount_total"/>
                         </td>
