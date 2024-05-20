@@ -7,7 +7,7 @@
                     <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
                         <table class="table table-sm" >
                             <tr class="border-black o_subtotal" style="">
-                                <td><strong>Kopā</strong></td>
+                              <td><strong><t t-esc="_('Subtotal')"/></strong></td>
                                 <td class="text-right">
                                     <span t-field="doc.amount_untaxed"/>
                                 </td>
@@ -19,7 +19,7 @@
 											<tr class="border-black">
                                             <t t-if="doc.discount_method == 'per'">
 												<td>
-													<strong> Atlaide  </strong><span><t t-esc="'%.2f' % doc.discount_amount" /><span>%</span></span>
+													<strong> Discount  </strong><span><t t-esc="'%.2f' % doc.discount_amount" /><span>%</span></span>
 												</td>
 												<td class="text-right">
 													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
@@ -27,7 +27,7 @@
 											</t>
 											<t t-if="doc.discount_method == 'fix'">
                                                 <td>
-													<strong>Atlaide</strong>
+													<strong>Discount</strong>
 												</td>
                                                 <td>
 													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" />
@@ -59,7 +59,7 @@
                                 </tr>
                             </t>
                             <tr class="border-black o_total">
-                                <td><strong>Summa</strong></td>
+                                <td><strong>Total</strong></td>
                                 <td class="text-right">
                                     <span t-field="doc.amount_total"/>
                                 </td>
