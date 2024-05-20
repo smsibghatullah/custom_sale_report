@@ -7,7 +7,7 @@
                     <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
                         <table class="table table-sm" >
                             <tr class="border-black o_subtotal" style="">
-                              <td><strong><t t-esc="_('Subtotal')"/></strong></td>
+                                <td><strong>Subtotal</strong></td>
                                 <td class="text-right">
                                     <span t-field="doc.amount_untaxed"/>
                                 </td>
