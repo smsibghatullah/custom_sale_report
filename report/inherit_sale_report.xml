@@ -13,39 +13,26 @@
                                 </td>
                             </tr>
 
-							<t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
-									<tr class="border-black">
-										<td>
-											<strong>atlaides llelums</strong>
-										</td>
-										<td class="text-right">
-											<span t-field="doc.discount_amt" />
-										</td>
-									</tr>
-							</t>
+							
 
 						    <t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
 											<tr class="border-black">
+                                            <t t-if="doc.discount_method == 'per'">
 												<td>
-													<strong> Atlaides veids</strong>
+													<strong> Atlaide  <span><t t-esc="'%.2f' % doc.discount_amount" /><span>%</span></span></strong>
 												</td>
 												<td class="text-right">
-													<span t-field="doc.discount_method" />
-												</td>
-											</tr>
-											<tr class="border-black">
-												<td>
-													<strong> Atlaides lielums</strong>
-												</td>
-												<td class="text-right">
-												<t t-if="doc.discount_method == 'per'">
-													<t t-esc="'%.2f' % doc.discount_amount" /><span>%</span>
 													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
-												</t>
-												<t t-if="doc.discount_method == 'fix'">
+                                                </td>
+											</t>
+											<t t-if="doc.discount_method == 'fix'">
+                                                <td>
+													<strong>Atlaide</strong>
+												</td>
+                                                <td>
 													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" />
-												</t>
-											</td>
+                                                </td>
+											</t>
 											</tr>
 										
 							</t>
