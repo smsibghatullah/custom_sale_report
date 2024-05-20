@@ -7,7 +7,7 @@
             <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
                 <table class="table table-sm">
                     <tr class="border-black o_subtotal">
-                        <td><strong><t t-translation="Subtotal">Subtotal</t></strong></td>
+                        <td><strong>Subtotal</strong></td>
                         <td class="text-right">
                             <span t-field="doc.amount_untaxed"/>
                         </td>
@@ -17,7 +17,7 @@
                         <tr class="border-black">
                             <t t-if="doc.discount_method == 'per'">
                                 <td>
-                                    <strong><t t-translation="Discount">Discount</t></strong>
+                                    <strong>Discount</strong>
                                     <span>
                                         <t t-esc="'%.2f' % doc.discount_amount"/><span>%</span>
                                     </span>
@@ -28,7 +28,7 @@
                             </t>
                             <t t-if="doc.discount_method == 'fix'">
                                 <td>
-                                    <strong><t t-translation="Discount">Discount</t></strong>
+                                    <strong>Discount</strong>
                                 </td>
                                 <td>
                                     <span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
@@ -43,7 +43,7 @@
                                 <td>
                                     <span t-esc="amount_by_group[0]"/>
                                     <span>
-                                        &amp;nbsp;<t t-translation="on">on</t>&amp;nbsp;
+                                        &amp;nbsp;on&amp;nbsp;
                                         <t t-esc="amount_by_group[2]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
                                     </span>
                                 </td>
@@ -63,7 +63,7 @@
                     </t>
 
                     <tr class="border-black o_total">
-                        <td><strong><t t-translation="Summa">Summa</t></strong></td>
+                        <td><strong>Total</strong></td>
                         <td class="text-right">
                             <span t-field="doc.amount_total"/>
                         </td>
