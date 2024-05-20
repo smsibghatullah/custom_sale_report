@@ -13,27 +13,28 @@
                                 </td>
                             </tr>
 
-							
+						
 
 						    <t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
 											<tr class="border-black">
                                             <t t-if="doc.discount_method == 'per'">
 												<td>
-													<strong> Discount  </strong><span><t t-esc="'%.2f' % doc.discount_amount" /><span>%</span></span>
+													<strong>Discount  </strong><t t-esc="'%.2f' % doc.discount_amount" /><span>%</span>
 												</td>
 												<td class="text-right">
 													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
-                                                </td>
-											</t>
+												</td>
+                                            </t>
 											<t t-if="doc.discount_method == 'fix'">
-                                                <td>
+                                            <td>
 													<strong>Discount</strong>
 												</td>
-                                                <td>
+                                                <td class="text-right">
 													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" />
-                                                </td>
-											</t>
-											</tr>
+												</td>
+                                             </t>
+											
+										</tr>
 										
 							</t>
 
