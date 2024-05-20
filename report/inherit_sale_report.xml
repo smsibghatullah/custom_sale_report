@@ -1,79 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<data>
-	<template id="report_sale_width123_inherit" inherit_id="sale.report_saleorder_document">
-    <xpath expr="//div[hasclass('clearfix')]" position="replace">
-        <div id="total" class="row" name="total">
-            <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
-                <table class="table table-sm">
-                    <tr class="border-black o_subtotal">
-                        <td><strong>Subtotal</strong></td>
-                        <td class="text-right">
-                            <span t-field="doc.amount_untaxed"/>
-                        </td>
-                    </tr>
-
-                    <t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
-                        <tr class="border-black">
-                            <t t-if="doc.discount_method == 'per'">
-                                <td>
-                                    <strong>Discount</strong>
-                                    <span>
-                                        <t t-esc="'%.2f' % doc.discount_amount"/><span>%</span>
-                                    </span>
-                                </td>
+		<template id="report_sale_width123_inherit" inherit_id="sale.report_saleorder_document">
+			<xpath expr="//div[hasclass('clearfix')]" position="replace">
+                            <div id="total" class="row" name="total" >
+                    <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                        <table class="table table-sm" >
+                            <tr class="border-black o_subtotal" style="">
+                                <td><strong>Subtotal</strong></td>
                                 <td class="text-right">
-                                    <span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                    <span t-field="doc.amount_untaxed"/>
                                 </td>
-                            </t>
-                            <t t-if="doc.discount_method == 'fix'">
-                                <td>
-                                    <strong>Discount</strong>
-                                </td>
-                                <td>
-                                    <span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
-                                </td>
-                            </t>
-                        </tr>
-                    </t>
+                            </tr>
 
-                    <t t-foreach="doc.amount_by_group" t-as="amount_by_group">
-                        <tr>
-                            <t t-if="amount_by_group[3] == 1 and doc.amount_untaxed == amount_by_group[2]">
-                                <td>
-                                    <span t-esc="amount_by_group[0]"/>
-                                    <span>
-                                        &amp;nbsp;on&amp;nbsp;
-                                        <t t-esc="amount_by_group[2]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
-                                    </span>
-                                </td>
-                                <td class="text-right o_price_total">
-                                    <span t-esc="amount_by_group[1]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
-                                </td>
-                            </t>
-                            <t t-else="">
-                                <td>
-                                    <span t-esc="amount_by_group[0]"/>
-                                </td>
-                                <td class="text-right o_price_total">
-                                    <span t-esc="amount_by_group[1]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
-                                </td>
-                            </t>
-                        </tr>
-                    </t>
+							
 
-                    <tr class="border-black o_total">
-                        <td><strong>Total</strong></td>
-                        <td class="text-right">
-                            <span t-field="doc.amount_total"/>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </xpath>
-</template>
+						    <t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
+											<tr class="border-black">
+                                            <t t-if="doc.discount_method == 'per'">
+												<td>
+													<strong> Discount  </strong><span><t t-esc="'%.2f' % doc.discount_amount" /><span>%</span></span>
+												</td>
+												<td class="text-right">
+													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                                </td>
+											</t>
+											<t t-if="doc.discount_method == 'fix'">
+                                                <td>
+													<strong>Discount</strong>
+												</td>
+                                                <td>
+													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" />
+                                                </td>
+											</t>
+											</tr>
+										
+							</t>
 
+                            <t t-foreach="doc.amount_by_group" t-as="amount_by_group">
+                                <tr style="">
+                                    <t t-if="amount_by_group[3] == 1 and doc.amount_untaxed == amount_by_group[2]">
+                                        <td>
+                                            <span t-esc="amount_by_group[0]"/>
+                                            <span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/></span>
+                                        </td>
+                                        <td class="text-right o_price_total">
+                                            <span t-esc="amount_by_group[1]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td>
+                                            <span t-esc="amount_by_group[0]"/>
+                                        </td>
+                                        <td class="text-right o_price_total">
+                                            <span t-esc="amount_by_group[1]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                            <tr class="border-black o_total">
+                                <td><strong>Total</strong></td>
+                                <td class="text-right">
+                                    <span t-field="doc.amount_total"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+			</xpath>
+		
+		</template>
 			<template id="report_sale_add_currency_inherit" inherit_id="sale.report_saleorder_document">
 			<xpath expr="//tbody[hasclass('sale_tbody')]" position="replace">
 
