@@ -1,34 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<data>
-		<template id="report_sale_width123_inherit" inherit_id="sale.report_saleorder_document">
-			<xpath expr="//table[hasclass('table table-sm')]" position="inside">
-						    <t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
-											<tr class="border-black o_subtotal">
-                                            
-												<td>
-													<strong>  </strong>
-                                     <t t-if="doc.discount_method == 'per'">
-                                                    <t t-esc="'%.2f' % doc.discount_amount" /><span>%</span>
-                                     </t>
-
-												</td>
-                                               <t t-if="doc.discount_method == 'per'">
-												<td class="text-right">
-													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
-												</td>
-                                                </t>
-                                           
-											<t t-if="doc.discount_method == 'fix'">
-                                                <td class="text-right">
-													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" />
-												</td>
-                                             </t>
-										</tr>
-							</t>
-			</xpath>
-		
-		</template>
+	<template id="report_sale_width123_inherit" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//table[contains(@class, 'table-sm')]" position="inside">
+            <t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
+                <tr class="border-black o_subtotal">
+                    <td>
+                        <strong></strong>
+                        <t t-if="doc.discount_method == 'per'">
+                            <t t-esc="'%.2f' % doc.discount_amount" /><span>%</span>
+                        </t>
+                    </td>
+                    <t t-if="doc.discount_method == 'per'">
+                        <td class="text-right">
+                            <span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                        </td>
+                    </t>
+                    <t t-if="doc.discount_method == 'fix'">
+                        <td class="text-right">
+                            <span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" />
+                        </td>
+                    </t>
+                </tr>
+            </t>
+        </xpath>
+    </template>
 
       
 
