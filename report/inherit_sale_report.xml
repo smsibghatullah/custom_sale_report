@@ -76,7 +76,7 @@
 
       
 
-			<template id="report_sale_add_currency_inherit" inherit_id="sale.report_saleorder_document">
+		<template id="report_sale_add_currency_inherit" inherit_id="sale.report_saleorder_document">
 			<xpath expr="//tbody[hasclass('sale_tbody')]" position="replace">
 
 
@@ -140,7 +140,7 @@
 
 		<template id="bi_sale_purchase_discount_with_tax.report_sale_discount_inherit" inherit_id="sale.report_saleorder_document">
 			<xpath expr="//div[@id='total']/div/table/tr[1]" position="after" >
-				<t t-if="doc.discount_type == 'global'">
+				<!-- <t t-if="doc.discount_type == 'global'">
 					<tr class="border-black">
 						<td>
 							<strong>Discount</strong>
@@ -149,17 +149,17 @@
 							<span t-field="doc.discount_amt" />
 						</td>
 					</tr>
-				</t>
+				</t> -->
 			</xpath>
 			<xpath expr="//div[@id='informations']" position="inside">
-                <div t-if="doc.discount_type" class="col-auto mw-100 mb-2">
+                <!-- <div t-if="doc.discount_type" class="col-auto mw-100 mb-2">
                     <strong>Discount Type:</strong>
                     <p class="m-0" t-field="doc.discount_type"/>
                 </div>
                 <div name="discount_type" class="col-auto mw-100 mb-2" t-if="doc.discount_type == 'line'">
                     <strong>Total Line Discount:</strong>
                     <p class="m-0" t-field="doc.discount_amt_line" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
-                </div>
+                </div> -->
             </xpath>
 			<xpath expr="//div[hasclass('clearfix')]" position="after">
 				<!-- <t t-if="doc.discount_type == 'global'">
@@ -190,13 +190,13 @@
 			</xpath>
 
 			<xpath expr="//table[hasclass('table', 'table-sm', 'o_main_table')]/thead/tr/th[4]" position="replace">
-                <t t-if="doc.discount_type == 'line'">
+                <!-- <t t-if="doc.discount_type == 'line'">
                     <th class="text-right"><strong>Discount Method</strong></th>
                     <th class="text-right"><strong>Discount Amount</strong></th>
-                </t>
+                </t> -->
             </xpath>
             <xpath expr="//tbody[hasclass('sale_tbody')]/t[@t-foreach='doc.order_line']/tr/t[@t-if='not line.display_type']/td[4]" position="replace">
-                <t t-if="doc.discount_type == 'line'">
+                <!-- <t t-if="doc.discount_type == 'line'">
                     <t t-if="line.discount_amount">
                         <td class="text-right">
                             <span t-field="line.discount_method"/>
@@ -213,7 +213,7 @@
                     <t t-else="">
                         <td></td>
                     </t>
-                </t>
+                </t> -->
             </xpath>
 
 		</template>
