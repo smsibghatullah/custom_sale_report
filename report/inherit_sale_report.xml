@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<data>
-		<!-- <template id="report_sale_width123_inherit" inherit_id="sale.report_saleorder_document">
+		<template id="report_sale_width123_inherit" inherit_id="sale.report_saleorder_document">
 			<xpath expr="//div[hasclass('clearfix')]" position="replace">
                 <div id="total" class="row" name="total" >
                     <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
@@ -15,19 +15,22 @@
 						
 
 						    <t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
-											<tr class="border-black">
-                                            <t t-if="doc.discount_method == 'per'">
+											<tr class="border-black o_subtotal">
+                                            
 												<td>
-													<strong>Discount  </strong><t t-esc="'%.2f' % doc.discount_amount" /><span>%</span>
+													<strong>Discount  </strong>
+                                     <t t-if="doc.discount_method == 'per'">
+                                                    <t t-esc="'%.2f' % doc.discount_amount" /><span>%</span>
+                                     </t>
+
 												</td>
+                                               <t t-if="doc.discount_method == 'per'">
 												<td class="text-right">
 													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
 												</td>
-                                            </t>
+                                                </t>
+                                           
 											<t t-if="doc.discount_method == 'fix'">
-                                            <td>
-													<strong>Discount</strong>
-												</td>
                                                 <td class="text-right">
 													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" />
 												</td>
@@ -69,8 +72,9 @@
                 </div>
 			</xpath>
 		
-		</template> -->
+		</template>
 
+      
 
 			<template id="report_sale_add_currency_inherit" inherit_id="sale.report_saleorder_document">
 			<xpath expr="//tbody[hasclass('sale_tbody')]" position="replace">
@@ -379,33 +383,6 @@
                                                     <span t-field="doc.amount_untaxed"/>
                                                 </td>
                                             </tr>
-
-
-						    <t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
-											<tr class="border-black o_discount">
-                                            <t t-if="doc.discount_method == 'per'">
-												<td>
-													<strong>Discount  </strong><t t-esc="'%.2f' % doc.discount_amount" /><span>%</span>
-												</td>
-												<td class="text-right">
-													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
-												</td>
-                                            </t>
-											<t t-if="doc.discount_method == 'fix'">
-                                            <td>
-													<strong>Discount</strong>
-												</td>
-                                                <td class="text-right">
-													<span t-field="doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" />
-												</td>
-                                             </t>
-											
-										</tr>
-										
-							</t>
-
-
-
                                             <t t-foreach="doc.amount_by_group" t-as="amount_by_group">
                                                 <tr style="">
                                                     <t t-if="amount_by_group[3] == 1 and doc.amount_untaxed == amount_by_group[2]">
