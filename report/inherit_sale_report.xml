@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<data>
-
-
-      
-
 		<template id="report_sale_add_currency_inherit" inherit_id="sale.report_saleorder_document">
 			<xpath expr="//tbody[hasclass('sale_tbody')]" position="replace">
 
@@ -72,10 +68,7 @@
 				 <t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
                 <tr class="border-black o_subtotal">
                     <td>
-                        <strong>Discount</strong>
-                        <t t-if="doc.discount_method == 'per'">
-                            <t t-esc="'%.2f' % doc.discount_amount" /><span>%</span>
-                        </t>
+                        
                     </td>
                     <t t-if="doc.discount_method == 'per'">
                         <td class="text-right">
