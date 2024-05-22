@@ -157,22 +157,23 @@
         <xpath expr="//div[@id='total']/div/table/tr[1]" position="after" >
            	 <t t-if="o.discount_type == 'global' and o.discount_amt != 0.00">
                 <tr class="border-black o_subtotal">
-                    <td>
+                   
+                     <t t-if="o.discount_method == 'fix'">
+                      <td>
                         <strong>Discount</strong>
-                        <t t-if="o.discount_method == 'per'">
-                            <t t-esc="'%.2f' % o.discount_amount" /><span>%</span>
-                        </t>
-                    </td>
-                    <t t-if="o.discount_method == 'per'">
-                        <td class="text-right">
+                        </td>
+                          <td class="text-right">
                             <span t-field="o.discount_amt" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                         </td>
-                    </t>
-                    <t t-if="o.discount_method == 'fix'">
-                        <td class="text-right">
-                            <span t-field="o.discount_amt" t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
+                        </t>
+                        <t t-if="o.discount_method == 'per'">
+                        <td>
+                          <strong>Discount</strong><t t-esc="'%.2f' % o.discount_amount" /><span>%</span>
+                          </td>
+                            <td class="text-right">
+                            <span t-field="o.discount_amt" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                         </td>
-                    </t>
+                        </t>
                 </tr>
             </t>
         </xpath>
