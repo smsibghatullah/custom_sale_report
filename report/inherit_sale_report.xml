@@ -159,6 +159,9 @@
                 <tr class="border-black">
                     <td>
                     <strong>Discount</strong>
+                     <t t-if="o.discount_method == 'per'">
+                            <t t-esc="'%.2f' % o.discount_amount" /><span>%</span>
+                        </t>
                     </td>
                     <td class="text-right">
                         <span t-field="o.discount_amt" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
