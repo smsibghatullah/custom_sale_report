@@ -595,7 +595,7 @@
                                         <tr class="border-black o_subtotal" style="">
                                             <td><strong>Subtotal</strong></td>
                                             <td class="text-right">
-                                                <span t-field="o.amount_untaxed"/>
+                                                <span t-field="o.amount_untaxed" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                                             </td>
                                         </tr>
                                         <t t-foreach="o.amount_by_group" t-as="amount_by_group">
@@ -622,7 +622,7 @@
                                         <tr class="border-black o_total">
                                             <td><strong>Total</strong></td>
                                             <td class="text-right">
-                                                <span t-field="o.amount_total"/>
+                                                <span t-field="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                                             </td>
                                         </tr>
                                     </table>
