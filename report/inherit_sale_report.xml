@@ -158,10 +158,10 @@
             <t t-if="o.discount_type == 'global'">
                 <tr class="border-black">
                     <td>
-                    <strong> Discount Amount 123 </strong>
+                    <strong>Discount</strong>
                     </td>
                     <td class="text-right">
-                        <span t-field="o.discount_amt" />
+                        <span t-field="o.discount_amt" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                     </td>
                 </tr>
             </t>
