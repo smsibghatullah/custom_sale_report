@@ -165,12 +165,12 @@
                     </td>
                     <t t-if="o.discount_method == 'per'">
                         <td class="text-right">
-                            <span t-field="o.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.pricelist_id.currency_id}"/>
+                            <span t-field="o.discount_amt" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                         </td>
                     </t>
                     <t t-if="o.discount_method == 'fix'">
                         <td class="text-right">
-                            <span t-field="o.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.pricelist_id.currency_id}" />
+                            <span t-field="o.discount_amt" t-options='{"widget": "monetary", "display_currency": o.currency_id}' />
                         </td>
                     </t>
                 </tr>
