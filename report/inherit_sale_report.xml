@@ -87,10 +87,10 @@
             </t>
 			</xpath>
 			<xpath expr="//div[@id='informations']" position="inside">
-                <div t-if="doc.discount_type" class="col-auto mw-100 mb-2">
+                <!-- <div t-if="doc.discount_type" class="col-auto mw-100 mb-2">
                     <strong>Discount Type:</strong>
                     <p class="m-0" t-field="doc.discount_type"/>
-                </div>
+                </div> -->
                 <div name="discount_type" class="col-auto mw-100 mb-2" t-if="doc.discount_type == 'line'">
                     <strong>Total Line Discount:</strong>
                     <p class="m-0" t-field="doc.discount_amt_line" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
@@ -171,10 +171,10 @@
         </xpath>
         
         <xpath expr="//div[@name='reference']" position="after">
-            <div name="discount_type" class="col-auto mw-100 mb-2" t-if="o.discount_type">
+            <!-- <div name="discount_type" class="col-auto mw-100 mb-2" t-if="o.discount_type">
                 <strong>Discount Type:</strong>
                 <p class="m-0" t-field="o.discount_type"/>
-            </div>
+            </div> -->
             <div name="discount_type" class="col-auto mw-100 mb-2" t-if="o.discount_type == 'line'">
                 <strong>Total Line Discount:</strong>
                 <p class="m-0" t-field="o.discount_amt_line" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
