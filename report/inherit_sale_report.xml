@@ -406,10 +406,10 @@
                                                     <t t-if="amount_by_group[3] == 1 and doc.amount_untaxed == amount_by_group[2]">
                                                         <td>
                                                             <span t-esc="amount_by_group[0]"/>
-                                                            <span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]"/></span>
+                                                            <span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]" /></span>123
                                                         </td>
                                                         <td class="text-right o_price_total">
-                                                            <span t-esc="amount_by_group[0]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                                            <span t-esc="doc.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
                                                         </td>
                                                     </t>
                                                     <t t-else="">
@@ -417,7 +417,7 @@
                                                             <span t-esc="amount_by_group[0]"/>
                                                         </td>
                                                         <td class="text-right o_price_total">
-                                                            <span t-esc="amount_by_group[0]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                                            <span t-esc="doc.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
                                                         </td>
                                                     </t>
                                                 </tr>
@@ -610,7 +610,7 @@
                                                     <td>
                                                         <span t-esc="amount_by_group[0]"/>
                                                         <span>&amp;nbsp;<span>on</span>
-                                                            <t t-esc="amount_by_group[4]" />
+                                                            <t t-esc="amount_by_group[4]"/>
                                                         </span>
                                                     </td>
                                                     <td class="text-right o_price_total">
