@@ -416,7 +416,7 @@
                                                     <t t-else="">
                                                         <td>
                                                             <!-- <span t-esc="amount_by_group[0]"/> -->
-                                                            Tax Amount
+                                                            <span>Tax Amount</span>
                                                         </td>
                                                         <td class="text-right o_price_total">
                                                             <span t-esc="amount_by_group[1]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
@@ -615,7 +615,7 @@
                                                         <span>&amp;nbsp;<span>on</span>
                                                             <t t-esc="amount_by_group[4]"/>
                                                         </span> -->
-                                                        Tax Amount
+                                                        <span>Tax Amount</span>
                                                     </td>
                                                     <td class="text-right o_price_total">
                                                         <span t-esc="amount_by_group[3]" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
