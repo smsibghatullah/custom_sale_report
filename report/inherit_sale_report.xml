@@ -401,7 +401,7 @@
                                                     <span t-field="doc.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
                                                 </td>
                                             </tr>
-                                         <t t-foreach="doc.amount_by_group" t-as="amount_by_group">
+                                         <!-- <t t-foreach="doc.amount_by_group" t-as="amount_by_group">
                                                 <tr style="">
                                                     <t t-if="amount_by_group[3] == 1 and doc.amount_untaxed == amount_by_group[2]">
                                                         <td>
@@ -415,15 +415,24 @@
                                                     </t>
                                                     <t t-else="">
                                                         <td>
-                                                            <!-- <span t-esc="amount_by_group[0]"/> -->
-                                                            <strong>Tax Amount</strong>
+                                                            <span t-esc="amount_by_group[0]"/>
                                                         </td>
                                                         <td class="text-right o_price_total">
                                                             <span t-esc="doc.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
                                                         </td>
                                                     </t>
                                                 </tr>
-                                            </t>
+                                            </t> -->
+
+                                              <tr >
+                                          <td>
+                                                        <strong>Tax Amount</strong>
+                                                    </td>
+                                                    <td class="text-right o_price_total">
+                                                         <span t-esc="doc.amount_tax" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                        
+                                                    </td>
+                                        </tr>
 
                                             <tr class="border-black o_total">
                                                 <td><strong>Total</strong></td>
@@ -601,7 +610,7 @@
                                                 <span t-field="o.amount_untaxed" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                                             </td>
                                         </tr>
-                                        <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                                        <!-- <t t-foreach="o.amount_by_group" t-as="amount_by_group">
                                             <tr style="">
                                                 <t t-if="len(o.tax_line_ids) == 1 and o.amount_untaxed == amount_by_group[2]">
                                                     <td><span t-esc="amount_by_group[0]"/></td>
@@ -611,20 +620,27 @@
                                                 </t>
                                                 <t t-else="">
                                                     <td>
-                                                        <!-- <span t-esc="amount_by_group[0]"/>
+                                                        <span t-esc="amount_by_group[0]"/>
                                                         <span>&amp;nbsp;<span>on</span>
                                                             <t t-esc="amount_by_group[4]"/>
-                                                        </span> -->
-                                                        <strong>Tax Amount</strong>
+                                                        </span>
+                                                        
                                                     </td>
                                                     <td class="text-right o_price_total">
-                                                        <!-- <span t-esc="amount_by_group[3]" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/> -->
-                                                         <span t-esc="o.amount_tax" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
-                                                        
+                                                        <span t-esc="amount_by_group[3]" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                                                     </td>
                                                 </t>
                                             </tr>
-                                        </t>
+                                        </t> -->
+                                        <tr>
+                                          <td>
+                                                        <strong>Tax Amount</strong>
+                                                    </td>
+                                                    <td class="text-right o_price_total">
+                                                         <span t-esc="o.amount_tax" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                        
+                                                    </td>
+                                        </tr>
                                         <tr class="border-black o_total">
                                             <td><strong>Total</strong></td>
                                             <td class="text-right">
