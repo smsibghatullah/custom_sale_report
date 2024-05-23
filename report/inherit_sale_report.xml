@@ -429,7 +429,7 @@
                                                         <strong>Tax Amount</strong>
                                                     </td>
                                                     <td class="text-right o_price_total">
-                                                         <span t-esc="doc.amount_tax" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                         <span t-esc="doc.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
                                                         
                                                     </td>
                                         </tr>
