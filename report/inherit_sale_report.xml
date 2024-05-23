@@ -426,8 +426,8 @@
 
                                               <tr >
                                           <td>
-                                                      <strong>Tax Amount </strong><span t-field="doc.amount_untaxed - doc.discount_amt" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}"/>
-
+                                                      <strong>Tax Amount</strong>
+<span t-field="doc.amount_untaxed - doc.discount_amt" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}"/>
                                                     </td>
                                                     <td class="text-right o_price_total">
                                                          <span t-esc="doc.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
