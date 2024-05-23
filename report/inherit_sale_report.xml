@@ -401,15 +401,17 @@
                                                     <span t-field="doc.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
                                                 </td>
                                             </tr>
-                                            <t t-foreach="doc.amount_by_group" t-as="amount_by_group">
+                                         <t t-foreach="doc.amount_by_group" t-as="amount_by_group">
                                                 <tr style="">
                                                     <t t-if="amount_by_group[3] == 1 and doc.amount_untaxed == amount_by_group[2]">
                                                         <td>
                                                             <span t-esc="amount_by_group[0]"/>
-                                                            <span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]" /></span>123
+                                                            <span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]"/></span>
                                                         </td>
                                                         <td class="text-right o_price_total">
-                                                            <span t-esc="doc.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                                            <span t-esc="amount_by_group[1]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                                        <span t-esc="amount_by_group[0]"/>
+                                                            <span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]"/></span>
                                                         </td>
                                                     </t>
                                                     <t t-else="">
@@ -417,11 +419,12 @@
                                                             <span t-esc="amount_by_group[0]"/>
                                                         </td>
                                                         <td class="text-right o_price_total">
-                                                            <span t-esc="doc.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                                            <span t-esc="amount_by_group[1]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
                                                         </td>
                                                     </t>
                                                 </tr>
                                             </t>
+
                                             <tr class="border-black o_total">
                                                 <td><strong>Total</strong></td>
                                                 <td class="text-right">
