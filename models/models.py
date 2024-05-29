@@ -30,7 +30,7 @@ class AccountMove(models.Model):
         
         for move in self:
             for line in move.invoice_line_ids:
-                for tax in line.tax_ids:
+                for tax in line.invoice_line_tax_ids:
                     key = tax.name
                     tax_amount = tax.amount / 100.0 * line.price_unit
                     aggregated_taxes[key]['amount'] += tax_amount
