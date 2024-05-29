@@ -322,9 +322,9 @@
                                         <th class="text-center">Quantity</th>
                                         <th class="text-center">Unit Price</th>
                                          <t t-if="doc.discount_type == 'line'">
-                    <th class="text-right"><strong>Discount Method</strong></th>
-                    <th class="text-right"><strong>Discount Amount</strong></th>
-                </t>
+                                            <th class="text-right"><strong>Discount Method</strong></th>
+                                            <th class="text-right"><strong>Discount Amount</strong></th>
+                                        </t>
                                         <th t-if="display_discount" class="text-center" groups="sale.group_discount_per_so_line">
                                             <span>Disc.(%)</span>
                                             <t t-set="colspan" t-value="colspan+1"/>
@@ -357,7 +357,7 @@
                                                     <span t-field="line.price_unit"/>
                                                 </td>
 
-                                                <t t-if="doc.discount_type == 'line'">
+                                                <!-- <t t-if="doc.discount_type == 'line'"> -->
                                                             <td class="text-right">
                                                                 <span t-field="line.discount_method"/>
                                                             </td>
@@ -366,7 +366,7 @@
                                                                 <span t-field="line.discount_amount"/>
                                                             </td>
                                                         
-                                                    </t>
+                                                    <!-- </t> -->
 
                                                 <td t-if="display_discount" class="text-center" groups="sale.group_discount_per_so_line">
                                                     <span t-field="line.discount"/>
