@@ -427,13 +427,12 @@
     <t t-set="taxes" t-value="{}"/>
     <t t-foreach="doc.order_line" t-as="line">
         <t t-foreach="line.tax_id" t-as="tax">
-            
         <tr>
             <td>
                 <strong><t t-esc="tax.description or tax.name"/></strong>
             </td>
             <td class="text-right o_price_total">
-                <span t-esc="tax.amount " t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                <span t-esc="tax.amount/100*line.price_unit " t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
             </td>
         </tr>
        </t>           
