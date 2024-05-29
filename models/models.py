@@ -1,3 +1,7 @@
+from odoo import models, fields, api
+from datetime import timedelta
+
+
 from collections import defaultdict
 
 class SaleOrder(models.Model):
