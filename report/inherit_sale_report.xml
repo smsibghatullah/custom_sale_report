@@ -441,6 +441,21 @@
                                         </t>           
                                     </t>
 
+                                    <t t-foreach="doc.get_aggregated_taxes().items()" t-as="tax_data">
+    <tr>
+        <td>
+            <strong>
+                <t t-esc="tax_data[0]"/> 
+                <span> <t t-esc="tax_data[1]['base']" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/> </span>
+            </strong>
+        </td>
+        <td class="text-right o_price_total">
+            <span t-esc="tax_data[1]['amount']" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+        </td>
+    </tr>
+</t>
+
+
 
                                             <tr class="border-black o_total">
                                                 <td><strong>Total</strong></td>
