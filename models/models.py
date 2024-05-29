@@ -14,10 +14,9 @@ class SaleOrder(models.Model):
             for line in order.order_line:
                 for tax in line.tax_id:
                     key = tax.name
-                    pricewithoutdiscount = line.price_unit - line.discount_amount
-                    tax_amount = tax.amount / 100.0 * pricewithoutdiscount
+                    tax_amount = tax.amount / 100.0 * line.price_unit - line.discount_amount
                     aggregated_taxes[key]['amount'] += tax_amount
-                    aggregated_taxes[key]['base'] += pricewithoutdiscount
+                    aggregated_taxes[key]['base'] += line.price_unit - line.discount_amount
         
         return aggregated_taxes
     
@@ -33,9 +32,9 @@ class AccountMove(models.Model):
             for line in move.invoice_line_ids:
                 for tax in line.invoice_line_tax_ids:
                     key = tax.name
-                    pricewithoutdiscount = line.price_unit - line.discount_amount
-                    tax_amount = tax.amount / 100.0 * pricewithoutdiscount
+                    tax_amount = tax.amount / 100.0 * (line.price_unit - line.discount_amount)
                     aggregated_taxes[key]['amount'] += tax_amount
-                    aggregated_taxes[key]['base'] += pricewithoutdiscount
+                    aggregated_taxes[key]['base'] += line.price_unit - line.discount_amount
+
         
         return aggregated_taxes
