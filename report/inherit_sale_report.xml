@@ -424,18 +424,12 @@
                                                 </tr>
                                             </t> -->
 
-   <tr>
-    <!-- Initialize the `taxes` dictionary -->
     <t t-set="taxes" t-value="{}"/>
-    <!-- Loop through each order line -->
     <t t-foreach="doc.order_line" t-as="line">
         <t t-foreach="line.tax_id" t-as="tax">
-            <!-- Debugging: Display tax name and amount -->
             <t t-esc="tax.description or tax.name"/>: <t t-esc="tax.amount / 100.0 * line.price_subtotal"/><br/>
-            <!-- Set tax name and amount -->
             <t t-set="tax_name" t-value="tax.description or tax.name"/>
             <t t-set="tax_amount" t-value="tax.amount / 100.0 * line.price_subtotal"/>
-            <!-- Aggregate tax amounts -->
             <t t-if="tax_name not in taxes">
                 <t t-set="taxes[tax_name]" t-value="tax_amount"/>
             </t>
@@ -444,11 +438,6 @@
             </t>
         </t>
     </t>
-    
-    <!-- Debugging: Display raw tax data -->
-    <t t-esc="taxes"/>
-
-    <!-- Display grouped taxes -->
     <t t-foreach="taxes.items()" t-as="item">
         <tr>
             <td>
@@ -459,7 +448,6 @@
             </td>
         </tr>
     </t>
-</tr>
 
 
 
