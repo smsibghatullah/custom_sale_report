@@ -19,3 +19,21 @@ class SaleOrder(models.Model):
                     aggregated_taxes[key]['base'] += line.price_unit
         
         return aggregated_taxes
+    
+   
+
+class AccountMove(models.Model):
+    _inherit = 'account.invoice'
+
+    def get_aggregated_taxes(self):
+        aggregated_taxes = defaultdict(lambda: {'amount': 0.0, 'base': 0.0})
+        
+        for move in self:
+            for line in move.invoice_line_ids:
+                for tax in line.tax_ids:
+                    key = tax.name
+                    tax_amount = tax.amount / 100.0 * line.price_unit
+                    aggregated_taxes[key]['amount'] += tax_amount
+                    aggregated_taxes[key]['base'] += line.price_unit
+        
+        return aggregated_taxes
