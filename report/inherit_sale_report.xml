@@ -63,7 +63,7 @@
 		</template>
 
 
-		<template id="bi_sale_purchase_discount_with_tax.report_sale_discount_inherit" inherit_id="sale.report_saleorder_document">
+		<template id="bi_sale_purchase_discount_with_tax_2.report_sale_discount_inherit" inherit_id="sale.report_saleorder_document">
 			<xpath expr="//div[@id='total']/div/table/tr[1]" position="after" >
 				 <t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
                 <tr class="border-black o_subtotal">
@@ -153,7 +153,7 @@
 
 		</template>
 	
- <template id="bi_sale_purchase_discount_with_tax.report_invoice_discount_inherit" inherit_id="account.report_invoice_document">
+ <template id="bi_sale_purchase_discount_with_tax_2.report_invoice_discount_inherit" inherit_id="account.report_invoice_document">
         <xpath expr="//div[@id='total']/div/table/tr[1]" position="after" >
             <t t-if="o.discount_type == 'global' and o.discount_amt != 0.00">
                 <tr class="border-black">
