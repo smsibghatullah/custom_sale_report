@@ -424,16 +424,29 @@
                                                 </tr>
                                             </t> -->
 
-                                              <tr >
-                                          <td>
-                                                      <strong>Tax Amount</strong>
-                                                      <span><t t-esc="doc.amount_untaxed - doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/></span>
+                                          <t t-set="tax_totals" t-value="{}"/>
+                                            <t t-foreach="doc.order_line" t-as="line">
+                                                <t t-foreach="line.tax_id" t-as="tax">
+                                                    <t t-if="tax.name not in tax_totals">
+                                                        <t t-set="tax_totals[tax.name]" t-value="{'amount': 0.0, 'percent': tax.amount or 0.0}"/>
+               x                                     </t>
+                                                    <t t-set="tax_totals[tax.name]['amount']" t-value="tax_totals[tax.name]['amount'] + (line.price_subtotal * tax.amount / 100)"/>
+                                                </t>
+                                            </t>
+
+                                            <tr>
+                                                <t t-foreach="tax_totals.items()" t-as="tax_name, tax_info">
+                                                    <td>
+                                                        <strong><t t-esc="tax_name"/></strong>
+                                                        (<t t-esc="tax_info['percent']"/>%):
+                                                        <span t-esc="tax_info['amount']" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
                                                     </td>
-                                                    <td class="text-right o_price_total">
-                                                         <span t-esc="doc.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
-                                                        
-                                                    </td>
-                                        </tr>
+                                                </t>
+                                                <td class="text-right o_price_total">
+                                                    <span t-esc="doc.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                                </td>
+                                            </tr>
+
 
                                             <tr class="border-black o_total">
                                                 <td><strong>Total</strong></td>
