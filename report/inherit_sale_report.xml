@@ -125,13 +125,13 @@
 			</xpath>
 
 			<xpath expr="//table[hasclass('table', 'table-sm', 'o_main_table')]/thead/tr/th[4]" position="replace">
-                <t t-if="doc.discount_type == 'line'">
+                <!-- <t t-if="doc.discount_type == 'line'">
                     <th class="text-right"><strong>Discount Method</strong></th>
                     <th class="text-right"><strong>Discount Amount</strong></th>
-                </t>
+                </t> -->
             </xpath>
             <xpath expr="//tbody[hasclass('sale_tbody')]/t[@t-foreach='doc.order_line']/tr/t[@t-if='not line.display_type']/td[4]" position="replace">
-                <t t-if="doc.discount_type == 'line'">
+                <!-- <t t-if="doc.discount_type == 'line'">
                     <t t-if="line.discount_amount">
                         <td class="text-right">
                             <span t-field="line.discount_method"/>
@@ -148,7 +148,7 @@
                     <t t-else="">
                         <td></td>
                     </t>
-                </t>
+                </t> -->
             </xpath>
 
 		</template>
@@ -210,13 +210,13 @@
         </xpath>
 
         <xpath expr="//table[hasclass('table', 'table-sm', 'o_main_table')]/thead/tr/th[5]" position="after">
-            <!-- <t t-if="o.discount_type == 'line'">
+            <t t-if="o.discount_type == 'line'">
                 <th class="text-right"><strong>Discount Method</strong></th>
                 <th class="text-right"><strong>Discount Amount</strong></th>
-            </t> -->
+            </t>
         </xpath>
         <xpath expr="//tbody[hasclass('invoice_tbody')]/t[@t-foreach='o.invoice_line_ids']/tr/t[@t-if='not line.display_type']/td[5]" position="replace">
-            <!-- <t t-if="o.discount_type == 'line'">
+            <t t-if="o.discount_type == 'line'">
                 <t t-if="line.discount_amount">
                     <td class="text-right">
                         <span t-field="line.discount_method"/>
@@ -233,7 +233,7 @@
                 <t t-else="">
                     <td></td>
                 </t>
-            </t> -->
+            </t>
         </xpath>
 
     </template>
@@ -321,6 +321,10 @@
                                         <th class="text-left">Description</th>
                                         <th class="text-center">Quantity</th>
                                         <th class="text-center">Unit Price</th>
+                                         <t t-if="doc.discount_type == 'line'">
+                    <th class="text-right"><strong>Discount Method</strong></th>
+                    <th class="text-right"><strong>Discount Amount</strong></th>
+                </t>
                                         <th t-if="display_discount" class="text-center" groups="sale.group_discount_per_so_line">
                                             <span>Disc.(%)</span>
                                             <t t-set="colspan" t-value="colspan+1"/>
@@ -352,6 +356,26 @@
                                                 <td class="text-center">
                                                     <span t-field="line.price_unit"/>
                                                 </td>
+
+ <t t-if="doc.discount_type == 'line'">
+                    <t t-if="line.discount_amount">
+                        <td class="text-right">
+                            <span t-field="line.discount_method"/>
+                        </td>
+                    </t>
+                    <t t-else="">
+                        <td></td>
+                    </t>
+                    <t t-if="line.discount_amount">
+                        <td  class="text-right">
+                            <span t-field="line.discount_amount"/>
+                        </td>
+                    </t>
+                    <t t-else="">
+                        <td></td>
+                    </t>
+                </t>
+
                                                 <td t-if="display_discount" class="text-center" groups="sale.group_discount_per_so_line">
                                                     <span t-field="line.discount"/>
                                                 </td>
