@@ -424,19 +424,33 @@
                                                 </tr>
                                             </t> -->
 
-                                              <tr >
-                                               <t t-foreach="doc.order_line" t-as="line">
-                                          <td>
-                                          
-                                                      <strong><span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/></strong>
-                                                      <span><t t-esc="doc.amount_untaxed - doc.discount_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/></span>
-                                                    </td>
-                                                    <td class="text-right o_price_total">
-                                                         <span t-esc="doc.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
-                                                        
-                                                    </td>
-                                                    </t>
-                                        </tr>
+                                         <tr>
+    <!-- New logic for grouped taxes -->
+    <t t-set="taxes" t-value="{}"/>
+    <t t-foreach="doc.order_line" t-as="line">
+        <t t-foreach="line.tax_id" t-as="tax">
+            <t t-set="tax_name" t-value="tax.description or tax.name"/>
+            <t t-if="tax_name not in taxes">
+                <t t-set="taxes[tax_name]" t-value="tax.amount"/>
+            </t>
+            <t t-else="">
+                <t t-set="taxes[tax_name]" t-value="taxes[tax_name] + tax.amount"/>
+            </t>
+        </t>
+    </t>
+
+    <!-- Displaying grouped taxes -->
+    <t t-foreach="taxes.items()" t-as="item">
+        <tr>
+            <td>
+                <strong><t t-esc="item[0]"/></strong>
+            </td>
+            <td class="text-right o_price_total">
+                <span t-esc="item[1]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+            </td>
+        </tr>
+    </t>
+</tr>
 
                                             <tr class="border-black o_total">
                                                 <td><strong>Total</strong></td>
