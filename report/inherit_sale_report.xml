@@ -357,24 +357,16 @@
                                                     <span t-field="line.price_unit"/>
                                                 </td>
 
- <t t-if="doc.discount_type == 'line'">
-                    <t t-if="line.discount_amount">
-                        <td class="text-right">
-                            <span t-field="line.discount_method"/>
-                        </td>
-                    </t>
-                    <t t-else="">
-                        <td></td>
-                    </t>
-                    <t t-if="line.discount_amount">
-                        <td  class="text-right">
-                            <span t-field="line.discount_amount"/>
-                        </td>
-                    </t>
-                    <t t-else="">
-                        <td></td>
-                    </t>
-                </t>
+                                                <t t-if="doc.discount_type == 'line'">
+                                                            <td class="text-right">
+                                                                <span t-field="line.discount_method"/>
+                                                            </td>
+                                                      
+                                                            <td  class="text-right">
+                                                                <span t-field="line.discount_amount"/>
+                                                            </td>
+                                                        
+                                                    </t>
 
                                                 <td t-if="display_discount" class="text-center" groups="sale.group_discount_per_so_line">
                                                     <span t-field="line.discount"/>
