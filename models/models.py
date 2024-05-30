@@ -6,11 +6,10 @@ from collections import defaultdict
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
-
-    def get_aggregated_taxes(self):
-            aggregated_taxes = defaultdict(lambda: {'amount': 0.0, 'base': 0.0})
-
-            for order in self:
+    
+    @api.depends('order_line.discount_amount','order_line.discount_method')
+    def subtract_discount_from_tax(self):
+        for order in self:
                 for line in order.order_line:
                     if line.discount_method == 'fix':
                         price_after_discount = (line.price_unit * line.product_uom_qty) - line.discount_amount
@@ -29,7 +28,22 @@ class SaleOrder(models.Model):
                         'price_subtotal': taxes['total_excluded'],
                     })
 
-                    
+
+    def get_aggregated_taxes(self):
+            aggregated_taxes = defaultdict(lambda: {'amount': 0.0, 'base': 0.0})
+
+            for order in self:
+                for line in order.order_line:
+                    if line.discount_method == 'fix':
+                        price_after_discount = (line.price_unit * line.product_uom_qty) - line.discount_amount
+                    elif line.discount_method == 'per':
+                        price_after_discount = (line.price_unit * line.product_uom_qty) * (1 - (line.discount_amount or 0.0) / 100.0)
+                        discount_amt = (line.price_unit * line.product_uom_qty) - price_after_discount
+                    else:
+                        price_after_discount = line.price_unit * line.product_uom_qty
+                        discount_amt = 0.0
+
+                    taxes = line.tax_id.compute_all(price_after_discount, line.order_id.currency_id, 1, product=line.product_id, partner=line.order_id.partner_shipping_id)
 
                     for tax in line.tax_id:
                         key = tax.name
