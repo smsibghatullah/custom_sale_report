@@ -714,7 +714,7 @@
 
 <template id="my_report_saleorder_document_12" inherit_id="sale.report_saleorder_document">
     <!-- Check if this XPath can locate the table -->
-    <xpath expr="//table[@class='table table-sm']" position="replace">
+    <xpath expr="//table[@class='table table-sm o_main_table']" position="replace">
  <thead>
                                     <tr>
                                         <t t-set="colspan" t-value="5"/>
