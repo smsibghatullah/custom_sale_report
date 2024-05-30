@@ -6,8 +6,8 @@ from collections import defaultdict
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
-    
-    @api.depends('order_line.discount_amount','order_line.discount_method')
+
+    @api.depends('discount_amount','discount_method')
     def subtract_discount_from_tax(self):
         for order in self:
                 for line in order.order_line:
