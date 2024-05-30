@@ -357,7 +357,7 @@
                                                 <td class="text-center">
                                                     <span t-field="line.discount_amount"/>
                                                 </td>
-                                                <td><td>
+                                                <td></td>
                                                 <td t-if="display_discount" class="text-center" groups="sale.group_discount_per_so_line">
                                                     <span t-field="line.discount"/>
                                                 </td>
