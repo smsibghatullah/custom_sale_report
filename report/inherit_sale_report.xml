@@ -126,16 +126,11 @@
 
 			<xpath expr="//table[hasclass('table', 'table-sm', 'o_main_table')]/thead/tr/th[4]" position="replace">
             <th class="text-right">Method</th>
-                <!-- <t t-if="doc.discount_type == 'line'">
-                    <th class="text-right"><strong>Discount Method</strong></th>
-                    <th class="text-right"><strong>Discount Amount</strong></th>
-                </t> -->
             </xpath>
-            <xpath expr="//table[contains(@class, 'table') and contains(@class, 'table-sm') and contains(@class, 'o_main_table')]/tbody[contains(@class, 'sale_tbody')]/tr/t[@t-if='not line.display_type']/td[4]" position="replace">
-                <td class="text-right">
-                    23
-                </td>
+            <xpath expr="//table[contains(@class, 'table') and contains(@class, 'table-sm') and contains(@class, 'o_main_table')]/tbody[contains(@class, 'sale_tbody')]/tr[not(@t-if='line.display_type')]/td[4]" position="replace">
+                <td class="text-right">23</td>
             </xpath>
+
 
 
 		</template>
