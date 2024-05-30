@@ -333,7 +333,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="sale_tbody">
-                                    <t t-set="current_subtotal" t-value="10"/>
+                                    <t t-set="current_subtotal" t-value="50"/>
 
                                     <t t-foreach="doc.order_line" t-as="line">
 
