@@ -314,7 +314,7 @@
                             <!-- Is there a discount on at least one line? -->
                             <t t-set="display_discount" t-value="any([l.discount for l in doc.order_line])"/>
 
-                            <table class="table table-sm o_main_table">
+                            <table class="table table-sm o_main_table" style="width:1000px">
                                 <thead>
                                     <tr>
                                         <t t-set="colspan" t-value="5"/>
