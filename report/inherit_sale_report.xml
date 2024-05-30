@@ -733,15 +733,23 @@
 </template >
 
 <template id="my_report_saleorder_document_12" inherit_id="sale.report_saleorder_document">
-                <xpath expr="//table[@class='table table-sm']/thead/tr/th[4]" position="after">
-                       <th>Discount Method</th>
-                       <th>Discount Amount</th>
-                </xpath>
-                <xpath expr="//table[@class='table table-sm']/tbody[@class='sale_tbody']/tr/td[4]" position="after">
-                       <td><span t-field="line.discount_method"/></td>              
-                       <td><span t-field="line.discount_amount"/></td>
-                </xpath>
-        </template>
+    <!-- Check if this XPath can locate the table -->
+    <xpath expr="//table[@class='table table-sm']" position="inside">
+        <thead>
+            <tr>
+                <th>Discount Method</th>
+                <th>Discount Amount</th>
+            </tr>
+        </thead>
+        <tbody class="sale_tbody">
+            <tr>
+                <td><span t-field="line.discount_method"/></td>
+                <td><span t-field="line.discount_amount"/></td>
+            </tr>
+        </tbody>
+    </xpath>
+</template>
+
 		
 	</data>
 </odoo>
