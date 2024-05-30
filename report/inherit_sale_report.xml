@@ -322,10 +322,6 @@
                                         <th class="text-center">Quantity</th>
                                         <th class="text-center">Unit Price</th>
                                         <th class="text-center">mubeen</th>
-                                        <t t-if="doc.discount_type == 'line'">
-                                            <th class="text-right"><strong>Discount Method</strong></th>
-                                            <th class="text-right"><strong>Discount Amount</strong></th>
-                                        </t>
                                         <th t-if="display_discount" class="text-center" groups="sale.group_discount_per_so_line">
                                             <span>Disc.(%)</span>
                                             <t t-set="colspan" t-value="colspan+1"/>
