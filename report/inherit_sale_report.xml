@@ -133,7 +133,7 @@
             <xpath expr="//tbody[hasclass('sale_tbody')]/t[@t-foreach='doc.order_line']/tr/t[@t-if='not line.display_type']/td[4]" position="replace">
                 <t t-if="doc.discount_type == 'line'">
                 <td>123</td>
-                <td>234<td>
+                <td>234</td>
                     <!-- <t t-if="line.discount_amount">
                         <td class="text-right">
                             <span t-field="line.discount_method"/>
