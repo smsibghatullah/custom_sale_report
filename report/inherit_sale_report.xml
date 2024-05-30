@@ -317,7 +317,7 @@
                             <table  class="table table-sm o_main_table">
                                 <thead>
                                     <tr>
-                                        <t t-set="colspan" t-value="5"/>
+                                        <t t-set="colspan" t-value="2"/>
                                         <th class="text-left">Description</th>
                                         <th class="text-center">Quantity</th>
                                         <th class="text-center">Unit Price</th>
