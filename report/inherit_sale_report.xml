@@ -125,12 +125,16 @@
 			</xpath>
 
 			<xpath expr="//table[hasclass('table', 'table-sm', 'o_main_table')]/thead/tr/th[4]" position="replace">
+            <th class="text-right">Method</th>
                 <!-- <t t-if="doc.discount_type == 'line'">
                     <th class="text-right"><strong>Discount Method</strong></th>
                     <th class="text-right"><strong>Discount Amount</strong></th>
                 </t> -->
             </xpath>
             <xpath expr="//tbody[hasclass('sale_tbody')]/t[@t-foreach='doc.order_line']/tr/t[@t-if='not line.display_type']/td[4]" position="replace">
+                 <td class="text-right">
+                      23
+                        </td>
                 <!-- <t t-if="doc.discount_type == 'line'">
                     <t t-if="line.discount_amount">
                         <td class="text-right">
@@ -321,7 +325,6 @@
                                         <th class="text-left">Description</th>
                                         <th class="text-center">Quantity</th>
                                         <th class="text-center">Unit Price</th>
-                                        <th class="text-center">mubeen</th>
                                         <th t-if="display_discount" class="text-center" groups="sale.group_discount_per_so_line">
                                             <span>Disc.(%)</span>
                                             <t t-set="colspan" t-value="colspan+1"/>
@@ -352,9 +355,6 @@
                                                     <span t-field="line.product_uom" groups="uom.group_uom"/>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span t-field="line.price_unit"/>
-                                                </td>
-                                                 <td class="text-center">
                                                     <span t-field="line.price_unit"/>
                                                 </td>
                                                 <td t-if="display_discount" class="text-center" groups="sale.group_discount_per_so_line">
