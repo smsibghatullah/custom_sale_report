@@ -7,11 +7,10 @@ from collections import defaultdict
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    @api.depends('order_line.discount_amount', 'order_line.discount_method')
+    @api.model
     def subtract_discount_from_tax(self):
         for order in self:
             for line in order.order_line:
-                # Calculate price after discount based on the discount method
                 if line.discount_method == 'fix':
                     price_after_discount = (line.price_unit * line.product_uom_qty) - line.discount_amount
                 elif line.discount_method == 'per':
@@ -21,26 +20,13 @@ class SaleOrder(models.Model):
                     price_after_discount = line.price_unit * line.product_uom_qty
                     discount_amt = 0.0
 
-                # Compute taxes based on the discounted price
                 taxes = line.tax_id.compute_all(price_after_discount, line.order_id.currency_id, 1, product=line.product_id, partner=line.order_id.partner_shipping_id)
 
-                # Update line with calculated values
                 line.update({
                     'price_tax': sum(t.get('amount', 0.0) for t in taxes.get('taxes', [])),
                     'price_total': taxes['total_included'],
                     'price_subtotal': taxes['total_excluded'],
                 })
-
-    @api.model
-    def create(self, vals):
-        order = super(SaleOrder, self).create(vals)
-        order.subtract_discount_from_tax()
-        return order
-
-    def write(self, vals):
-        res = super(SaleOrder, self).write(vals)
-        self.subtract_discount_from_tax()
-        return res
 
 
     def get_aggregated_taxes(self):
