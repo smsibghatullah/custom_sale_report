@@ -9,6 +9,7 @@ class SaleOrder(models.Model):
 
     def subtract_discount_from_tax(self):
         for order in self:
+            total_tax = 0  
             for line in order.order_line:
                 if line.discount_method == 'fix':
                     price_after_discount = (line.price_unit * line.product_uom_qty) - line.discount_amount
@@ -25,7 +26,14 @@ class SaleOrder(models.Model):
                     'price_tax': sum(t.get('amount', 0.0) for t in taxes.get('taxes', [])),
                     'price_total': taxes['total_included'],
                     'price_subtotal': taxes['total_excluded'],
+                    'discount_amt': discount_amt,
                 })
+
+                for tax in line.tax_id:
+                    tax_amount = tax.amount / 100.0 * price_after_discount
+                    total_tax += tax_amount
+
+            order.update({'amount_tax': total_tax})
 
     @api.model
     def create(self, vals):
