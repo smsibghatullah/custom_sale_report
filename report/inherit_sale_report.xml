@@ -314,15 +314,15 @@
                             <!-- Is there a discount on at least one line? -->
                             <t t-set="display_discount" t-value="any([l.discount for l in doc.order_line])"/>
 
-                            <table class="table table-sm o_main_table">
+                            <table  class="table table-sm o_main_table">
                                 <thead>
                                     <tr>
                                         <t t-set="colspan" t-value="5"/>
                                         <th class="text-left">Description</th>
                                         <th class="text-center">Quantity</th>
                                         <th class="text-center">Unit Price</th>
-                                        <th class="text-right"><strong>Discount Method</strong></th>
-                                        <th class="text-right"><strong>Discount Amount</strong></th>
+                                        <th class="text-center"><strong>Discount Method</strong></th>
+                                        <th class="text-center"><strong>Discount Amount</strong></th>
                                         <th t-if="display_discount" class="text-center" groups="sale.group_discount_per_so_line">
                                             <span>Disc.(%)</span>
                                             <t t-set="colspan" t-value="colspan+1"/>
@@ -332,8 +332,8 @@
                                         <th class="text-center"><span groups="account.group_show_line_subtotals_tax_included">Total Price</span></th>
                                     </tr>
                                 </thead>
-                                <tbody class="sale_tbody">
-                                    <t t-set="current_subtotal" t-value="50"/>
+                                <tbody style="width:100%" class="sale_tbody">
+                                    <t t-set="current_subtotal" t-value="0"/>
 
                                     <t t-foreach="doc.order_line" t-as="line">
 
@@ -351,10 +351,10 @@
                                                 <td class="text-center">
                                                     <span t-field="line.price_unit"/>
                                                 </td>
-                                                <td class="text-right">
+                                                <td class="text-center">
                                                     <span t-field="line.discount_method"/>
                                                 </td>
-                                                <td class="text-right">
+                                                <td class="text-center">
                                                     <span t-field="line.discount_amount"/>
                                                 </td>
                                                 <td t-if="display_discount" class="text-center" groups="sale.group_discount_per_so_line">
