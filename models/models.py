@@ -9,7 +9,7 @@ class SaleOrder(models.Model):
 
     def subtract_discount_from_tax(self):
         for order in self:
-            total_tax = 0  
+            total_tax = 0.0
             for line in order.order_line:
                 if line.discount_method == 'fix':
                     price_after_discount = (line.price_unit * line.product_uom_qty) - line.discount_amount
