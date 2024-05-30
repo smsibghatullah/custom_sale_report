@@ -743,8 +743,8 @@
         </thead>
         <tbody class="sale_tbody">
             <tr>
-                <td><span t-field="line.discount_method"/></td>
-                <td><span t-field="line.discount_amount"/></td>
+                <td>123</td>
+                <td>456</td>
             </tr>
         </tbody>
     </xpath>
