@@ -34,7 +34,10 @@ class SaleOrder(models.Model):
                     tax_amount = tax.amount / 100.0 * price_after_discount
                     total_tax += tax_amount
 
-            order.with_context(skip_subtract_discount_from_tax=True).update({'amount_tax': total_tax})
+            order.with_context(skip_subtract_discount_from_tax=True).update({
+                'amount_tax': total_tax,
+                'amount_total': total_tax + order.amount_untaxed
+                })
 
     @api.model
     def create(self, vals):
