@@ -14,7 +14,8 @@ class SaleOrder(models.Model):
             for line in order.order_line:
                 for tax in line.tax_id:
                     key = tax.name
-                    tax_amount = tax.amount / 100.0 * line.price_unit - line.discount_amount
+                    print(line.price_unit - line.discount_amount,"pppppppppppppppppppppppppppppppppppp")
+                    tax_amount = tax.amount / 100.0 * (line.price_unit - line.discount_amount)
                     aggregated_taxes[key]['amount'] += tax_amount
                     aggregated_taxes[key]['base'] += line.price_unit - line.discount_amount
         
