@@ -713,21 +713,32 @@
 </template >
 
 <template id="my_report_saleorder_document_12" inherit_id="sale.report_saleorder_document">
-    <!-- Check if this XPath can locate the table -->
-    <xpath expr="//table[@class='table table-sm o_main_table']" position="inside">
-        <thead>
-            <tr>
-                <th>Discount Method</th>
-                <th>Discount Amount</th>
-            </tr>
-        </thead>
-        <tbody class="sale_tbody">
-            <tr>
-                <td><span t-field="line.discount_method"/></td>
-                <td><span t-field="line.discount_amount"/></td>
-            </tr>
-        </tbody>
-    </xpath>
+   <xpath expr="//table[hasclass('table', 'table-sm', 'o_main_table')]/thead/tr/th[4]" position="replace">
+                <t t-if="doc.discount_type == 'line'">
+                    <th class="text-right"><strong>Discount Method</strong></th>
+                    <th class="text-right"><strong>Discount Amount</strong></th>
+                </t>
+            </xpath>
+            <xpath expr="//tbody[hasclass('sale_tbody')]/t[@t-foreach='doc.order_line']/tr/t[@t-if='not line.display_type']/td[4]" position="replace">
+                 <t t-if="doc.discount_type == 'line'">
+                    <t t-if="line.discount_amount">
+                        <td class="text-right">
+                            <span t-field="line.discount_method"/>
+                        </td>
+                    </t>
+                    <t t-else="">
+                        <td></td>
+                    </t>
+                    <t t-if="line.discount_amount">
+                        <td  class="text-right">
+                            <span t-field="line.discount_amount"/>
+                        </td>
+                    </t>
+                    <t t-else="">
+                        <td></td>
+                    </t>
+                </t>    
+            </xpath>
 </template>
 
 		
