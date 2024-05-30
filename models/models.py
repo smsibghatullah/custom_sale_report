@@ -7,7 +7,6 @@ from collections import defaultdict
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    @api.model
     def subtract_discount_from_tax(self):
         for order in self:
             for line in order.order_line:
@@ -27,6 +26,17 @@ class SaleOrder(models.Model):
                     'price_total': taxes['total_included'],
                     'price_subtotal': taxes['total_excluded'],
                 })
+
+    @api.model
+    def create(self, vals):
+        order = super(SaleOrder, self).create(vals)
+        order.subtract_discount_from_tax()
+        return order
+
+    def write(self, vals):
+        res = super(SaleOrder, self).write(vals)
+        self.subtract_discount_from_tax()
+        return res
 
 
     def get_aggregated_taxes(self):
