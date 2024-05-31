@@ -10,6 +10,9 @@ class SaleOrder(models.Model):
     def subtract_discount_from_tax(self):
         if self.env.context.get('skip_subtract_discount_from_tax'):
             return
+        self.update().with_context(skip_subtract_discount_from_tax=True).update({
+                'amount_total': self.amount_total - self.discount_amt 
+                })
         for order in self:
             total_tax = 0 
             discount_amt = 0
@@ -37,7 +40,7 @@ class SaleOrder(models.Model):
 
             order.with_context(skip_subtract_discount_from_tax=True).update({
                 'amount_tax': total_tax,
-                'amount_total': total_tax + order.amount_untaxed - discount_amt
+                'amount_total': total_tax + order.amount_untaxed 
                 })
 
     @api.model
