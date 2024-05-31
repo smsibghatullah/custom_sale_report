@@ -7,12 +7,16 @@ from collections import defaultdict
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    @api.depends('amount_untaxed', 'amount_tax', 'discount_amt')
     def _compute_amount_total_now(self):
+        if self.env.context.get('skip_subtract_discount_from_tax'):
+            return
         for order in self:
-            order.amount_total = order.amount_untaxed + order.amount_tax - order.discount_amt
+            order.with_context(skip_subtract_discount_from_tax=True).update({
+                'amount_total': order.amount_untaxed + order.amount_tax - order.discount_amt
+                })
 
     def subtract_discount_from_tax(self):
-        self._compute_amount_total_now()
         if self.env.context.get('skip_subtract_discount_from_tax'):
             return
        
@@ -43,22 +47,19 @@ class SaleOrder(models.Model):
 
             order.with_context(skip_subtract_discount_from_tax=True).update({
                 'amount_tax': total_tax,
-                'amount_total': total_tax + order.amount_untaxed - discount_amt
+                'amount_total': total_tax + order.amount_untaxed 
                 })
 
     @api.model
     def create(self, vals):
         order = super(SaleOrder, self).create(vals)
         order.subtract_discount_from_tax()
-        order._compute_amount_total_now()
      
         return order
 
     def write(self, vals):
         res = super(SaleOrder, self).write(vals)
-        for order in self:
-            order.subtract_discount_from_tax()
-        return res
+        self.subtract_discount_from_tax()
         
         return res
 
