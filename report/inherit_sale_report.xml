@@ -120,17 +120,24 @@
 				</t> -->
 			</xpath>
 
-            <xpath expr="//table[contains(@class, 'table') and contains(@class, 'table-sm') and contains(@class, 'o_main_table')]/thead/tr" position="inside">
+          <xpath expr="//table[hasclass('table', 'table-sm', 'o_main_table')]/thead/tr/th[4]" position="replace">
                 <t t-if="doc.discount_type == 'line'">
                     <th class="text-right"><strong>Discount Method</strong></th>
                     <th class="text-right"><strong>Discount Amount</strong></th>
                 </t>
             </xpath>
-
-            <xpath expr="//table[contains(@class, 'table') and contains(@class, 'table-sm') and contains(@class, 'o_main_table')]/tbody/tr" position="inside">
+            <xpath expr="//tbody[hasclass('sale_tbody')]/t[@t-foreach='doc.order_line']/tr/t[@t-if='not line.display_type']/td[4]" position="replace">
                 <t t-if="doc.discount_type == 'line'">
-                    <td class="text-right">123</td>
-                    <td class="text-right">456</td>
+                    <t t-if="line.discount_amount">
+                        <td class="text-right">
+                            <span t-field="line.discount_method"/>
+                        </td>
+                    </t>
+                    <t t-if="line.discount_amount">
+                        <td  class="text-right">
+                            <span t-field="line.discount_amount"/>
+                        </td>
+                    </t>
                 </t>
             </xpath>
 
@@ -303,7 +310,7 @@
                                                     <span t-field="line.price_unit"/>
                                                 </td>
 
-                                                <td  class="text-center">
+                                                <td t-if="display_discount" class="text-center" groups="sale.group_discount_per_so_line">
                                                     <span t-field="line.discount"/>
                                                 </td>
                                                 <td class="text-center">
