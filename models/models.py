@@ -12,6 +12,7 @@ class SaleOrder(models.Model):
             return
         for order in self:
             total_tax = 0 
+            discount_amt = 0
             for line in order.order_line:
                 if line.discount_method == 'fix':
                     price_after_discount = (line.price_unit * line.product_uom_qty) - line.discount_amount
@@ -36,7 +37,7 @@ class SaleOrder(models.Model):
 
             order.with_context(skip_subtract_discount_from_tax=True).update({
                 'amount_tax': total_tax,
-                'amount_total': total_tax + order.amount_untaxed
+                'amount_total': total_tax + order.amount_untaxed - discount_amt
                 })
 
     @api.model
@@ -107,6 +108,7 @@ class AccountMove(models.Model):
                 return
             for move in self:
                 total_tax = 0
+                discount_amt = 0
                 for line in move.invoice_line_ids:
                     if line.discount_method == 'fix':
                         price_after_discount = (line.price_unit * line.quantity) - line.discount_amount
@@ -129,7 +131,7 @@ class AccountMove(models.Model):
 
                 move.with_context(skip_subtract_discount_from_tax=True).update({
                     'amount_tax': total_tax,
-                    'amount_total': total_tax + move.amount_untaxed,
+                    'amount_total': total_tax + move.amount_untaxed - discount_amt,
                 })
 
     @api.model
