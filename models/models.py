@@ -7,7 +7,6 @@ from collections import defaultdict
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    @api.depends('discount_amt')
     def _compute_amount_total_now(self):
         for order in self:
             order.amount_total = order.amount_untaxed + order.amount_tax - order.discount_amt
@@ -50,12 +49,14 @@ class SaleOrder(models.Model):
     def create(self, vals):
         order = super(SaleOrder, self).create(vals)
         order.subtract_discount_from_tax()
+        order._compute_amount_total_now()
      
         return order
 
     def write(self, vals):
         res = super(SaleOrder, self).write(vals)
         self.subtract_discount_from_tax()
+        self._compute_amount_total_now()
         
         return res
 
