@@ -7,15 +7,94 @@ from collections import defaultdict
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    @api.depends('order_line','order_line.price_total','order_line.price_subtotal',\
-        'order_line.product_uom_qty','discount_amount',\
-        'discount_method','discount_type' ,'order_line.discount_amount',\
-        'order_line.discount_method','order_line.discount_amt')
+    @api.depends('order_line', 'order_line.price_total', 'order_line.price_subtotal',
+             'order_line.product_uom_qty', 'discount_amount', 'discount_method',
+             'discount_type', 'order_line.discount_amount', 'order_line.discount_method',
+             'order_line.discount_amt')
     def _amount_all(self):
-           for order in self:                            
-                        order.update({
-                            'amount_total': order.amount_untaxed + order.amount_tax - order.discount_amt,
-                        })
+        """
+        Compute the total amounts of the SO.
+        """
+        res_config = self.env.user.company_id
+
+        for order in self:
+            amount_untaxed = sum(line.price_subtotal for line in order.order_line)
+            amount_tax = sum(line.price_tax for line in order.order_line)
+            line_discount = 0.0
+
+            for line in order.order_line:
+                if line.discount_method == 'fix':
+                    line_discount += line.discount_amount
+                elif line.discount_method == 'per':
+                    tax = line.com_tax()
+                    line_discount += (line.price_subtotal + tax) * (line.discount_amount / 100)
+
+            if order.discount_type == 'line':
+                self._apply_line_discount(order, amount_untaxed, amount_tax, line_discount, res_config)
+            elif order.discount_type == 'global':
+                self._apply_global_discount(order, amount_untaxed, amount_tax, res_config)
+            else:
+                order.update({
+                    'amount_untaxed': amount_untaxed,
+                    'amount_tax': amount_tax,
+                    'amount_total': amount_untaxed + amount_tax,
+                })
+
+    def _apply_line_discount(self, order, amount_untaxed, amount_tax, line_discount, res_config):
+        if res_config.tax_discount_policy == 'tax':
+            order.update({
+                'amount_untaxed': amount_untaxed,
+                'amount_tax': amount_tax,
+                'amount_total': amount_untaxed + amount_tax - line_discount,
+                'discount_amt_line': line_discount,
+            })
+        elif res_config.tax_discount_policy == 'untax':
+            order.update({
+                'amount_untaxed': amount_untaxed,
+                'amount_tax': amount_tax,
+                'amount_total': amount_untaxed + amount_tax - line_discount,
+                'discount_amt_line': line_discount,
+            })
+
+    def _apply_global_discount(self, order, amount_untaxed, amount_tax, res_config):
+        if order.discount_method == 'per':
+            order_discount = (amount_untaxed + amount_tax) * (order.discount_amount / 100)
+        elif order.discount_method == 'fix':
+            order_discount = order.discount_amount
+        else:
+            order_discount = 0.0
+
+        if res_config.tax_discount_policy == 'tax':
+            order.update({
+                'amount_untaxed': amount_untaxed,
+                'amount_tax': amount_tax,
+                'amount_total': amount_untaxed + amount_tax - order_discount,
+                'discount_amt': order_discount,
+            })
+        elif res_config.tax_discount_policy == 'untax':
+            sums = 0.0
+            if order.discount_method == 'per':
+                for line in order.order_line:
+                    if line.tax_id:
+                        final_discount = (order.discount_amount * line.price_subtotal) / 100.0
+                        discount = line.price_subtotal - final_discount
+                        taxes = line.tax_id.compute_all(discount, order.currency_id, 1.0, product=line.product_id, partner=order.partner_id)
+                        sums += sum(t.get('amount', 0.0) for t in taxes.get('taxes', []))
+            elif order.discount_method == 'fix':
+                for line in order.order_line:
+                    if line.tax_id:
+                        final_discount = (order.discount_amount * line.price_subtotal) / amount_untaxed
+                        discount = line.price_subtotal - final_discount
+                        taxes = line.tax_id.compute_all(discount, order.currency_id, 1.0, product=line.product_id, partner=order.partner_id)
+                        sums += sum(t.get('amount', 0.0) for t in taxes.get('taxes', []))
+
+            order.update({
+                'amount_untaxed': amount_untaxed,
+                'amount_tax': sums,
+                'amount_total': amount_untaxed + sums - order_discount,
+                'discount_amt': order_discount,
+            })
+
          
     def subtract_discount_from_tax(self):
        
