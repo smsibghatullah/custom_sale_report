@@ -51,9 +51,8 @@ class SaleOrder(models.Model):
 
     def write(self, vals):
         res = super(SaleOrder, self).write(vals)
-        for order in self:
-            order.amount_total -= order.discount_amt
-            order.subtract_discount_from_tax()
+        self.amount_total -= self.discount_amt
+        self.subtract_discount_from_tax()
         
         return res
 
