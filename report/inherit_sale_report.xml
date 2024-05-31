@@ -21,10 +21,23 @@
                                 </td>
                                 <td class="text-right">
                                     <span t-field="line.price_unit" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+                                     <span t-field="line.discount_amount"/>
                                 </td>
-                                <td t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">
+                                 <t t-if="doc.discount_type == 'line'">
+                                    <t t-if="line.discount_amount">
+                                        <td class="text-right">
+                                            <span t-field="line.discount_method"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="line.discount_amount">
+                                        <td  class="text-right">
+                                            <span t-field="line.discount_amount"/>
+                                        </td>
+                                    </t>
+                                </t>
+                                <!-- <td t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">
                                     <span t-field="line.discount"/>
-                                </td>
+                                </td> -->
                                 <td class="text-right">
                                     <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>
                                 </td>
@@ -126,20 +139,7 @@
                     <th class="text-right"><strong>Discount Amount</strong></th>
                 </t>
             </xpath>
-            <xpath expr="//tbody[hasclass('sale_tbody')]/t[@t-foreach='doc.order_line']/tr/t[@t-if='not line.display_type']/td[4]" position="replace">
-                <t t-if="doc.discount_type == 'line'">
-                    <t t-if="line.discount_amount">
-                        <td class="text-right">
-                            <span t-field="line.discount_method"/>
-                        </td>
-                    </t>
-                    <t t-if="line.discount_amount">
-                        <td  class="text-right">
-                            <span t-field="line.discount_amount"/>
-                        </td>
-                    </t>
-                </t>
-            </xpath>
+         
 
 		</template>
 	
