@@ -21,18 +21,23 @@
                                 </td>
                                 <td class="text-right">
                                     <span t-field="line.price_unit" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
-                                     <span t-field="line.discount_amount"/>
                                 </td>
-                                 <t t-if="doc.discount_type == 'line'">
+                               <t t-if="doc.discount_type == 'line'">
                                     <t t-if="line.discount_amount">
                                         <td class="text-right">
                                             <span t-field="line.discount_method"/>
                                         </td>
                                     </t>
+                                    <t t-else="">
+                                        <td></td>
+                                    </t>
                                     <t t-if="line.discount_amount">
                                         <td  class="text-right">
                                             <span t-field="line.discount_amount"/>
                                         </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td></td>
                                     </t>
                                 </t>
                                 <!-- <td t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">
@@ -194,7 +199,12 @@
                 </div>
             </t> -->
         </xpath>
-
+        <xpath expr="//table[hasclass('table', 'table-sm', 'o_main_table')]/thead/tr/th[5]" position="after">
+                    <t t-if="o.discount_type == 'line'">
+                        <th class="text-right"><strong>Discount Method</strong></th>
+                        <th class="text-right"><strong>Discount Amount</strong></th>
+                    </t>
+                </xpath>
 
     </template>
 
@@ -531,9 +541,27 @@
                                             <td t-attf-class="text-center {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                                 <span t-field="line.price_unit" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
                                             </td>
-                                            <td t-if="display_discount" t-attf-class="text-center {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                            <t t-if="doc.discount_type == 'line'">
+                                                    <t t-if="line.discount_amount">
+                                                        <td class="text-right">
+                                                            <span t-field="line.discount_method"/>
+                                                        </td>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <td></td>
+                                                    </t>
+                                                    <t t-if="line.discount_amount">
+                                                        <td  class="text-right">
+                                                            <span t-field="line.discount_amount"/>
+                                                        </td>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <td></td>
+                                                    </t>
+                                                </t>
+                                            <!-- <td t-if="display_discount" t-attf-class="text-center {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                                 <span t-field="line.discount"/>
-                                            </td>
+                                            </td> -->
                                             <td t-attf-class="text-center {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                                 <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.invoice_line_tax_ids))"/>
                                             </td>
