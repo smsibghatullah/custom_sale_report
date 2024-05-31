@@ -7,22 +7,6 @@ from collections import defaultdict
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    @api.depends('discount_amt')
-    def _amount_all(self):
-        """
-        Compute the total amounts of the SO.
-        """
-        for order in self:
-            amount_untaxed = amount_tax = 0.0
-            for line in order.order_line:
-                amount_untaxed += line.price_subtotal
-                amount_tax += line.price_tax
-            order.update({
-                'amount_untaxed': amount_untaxed,
-                'amount_tax': amount_tax,
-                'amount_total': amount_untaxed + amount_tax - 1000,
-            })
-                       
 
     def subtract_discount_from_tax(self):
         if self.env.context.get('skip_subtract_discount_from_tax'):
