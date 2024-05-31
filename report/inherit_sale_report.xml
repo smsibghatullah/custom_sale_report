@@ -126,16 +126,17 @@
                     <th class="text-right"><strong>Discount Amount</strong></th>
                 </t>
             </xpath>
-            <xpath expr="//tbody[hasclass('sale_tbody')]/t[@t-foreach='doc.order_line']/tr/t[@t-if='not line.display_type']/td[4]" position="replace">
-                <t t-if="doc.discount_type == 'line'">
-                        <td class="text-right">
-                            123
-                        </td>
-                        <td  class="text-right">
-                            456
-                        </td>
-                </t>
-            </xpath>
+           <xpath expr="//tbody[contains(@class, 'sale_tbody')]/tr/td[4]" position="replace">
+    <t t-if="doc.discount_type == 'line'">
+        <td class="text-right">
+            123
+        </td>
+        <td class="text-right">
+            456
+        </td>
+    </t>
+</xpath>
+
 
 		</template>
 	
