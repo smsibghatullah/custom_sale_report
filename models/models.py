@@ -10,9 +10,7 @@ class SaleOrder(models.Model):
     def subtract_discount_from_tax(self):
         if self.env.context.get('skip_subtract_discount_from_tax'):
             return
-        self.write({
-                'amount_total': self.amount_total - self.discount_amt 
-                })
+       
         for order in self:
             total_tax = 0 
             discount_amt = 0
@@ -46,12 +44,17 @@ class SaleOrder(models.Model):
     @api.model
     def create(self, vals):
         order = super(SaleOrder, self).create(vals)
+        order.amount_total -= order.discount_amt
         order.subtract_discount_from_tax()
+     
         return order
 
     def write(self, vals):
         res = super(SaleOrder, self).write(vals)
-        self.subtract_discount_from_tax()
+        for order in self:
+            order.amount_total -= order.discount_amt
+            order.subtract_discount_from_tax()
+        
         return res
 
 
