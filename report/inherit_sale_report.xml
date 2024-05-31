@@ -128,16 +128,12 @@
             </xpath>
             <xpath expr="//tbody[hasclass('sale_tbody')]/t[@t-foreach='doc.order_line']/tr/t[@t-if='not line.display_type']/td[4]" position="replace">
                 <t t-if="doc.discount_type == 'line'">
-                    <t t-if="line.discount_amount">
                         <td class="text-right">
-                            <span t-field="line.discount_method"/>
+                            123
                         </td>
-                    </t>
-                    <t t-if="line.discount_amount">
                         <td  class="text-right">
-                            <span t-field="line.discount_amount"/>
+                            456
                         </td>
-                    </t>
                 </t>
             </xpath>
 
@@ -310,7 +306,7 @@
                                                     <span t-field="line.price_unit"/>
                                                 </td>
 
-                                                <td  class="text-center" groups="sale.group_discount_per_so_line">
+                                                <td  class="text-center">
                                                     <span t-field="line.discount"/>
                                                 </td>
                                                 <td class="text-center">
