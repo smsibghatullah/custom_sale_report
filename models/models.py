@@ -43,7 +43,7 @@ class SaleOrder(models.Model):
 
             order.with_context(skip_subtract_discount_from_tax=True).update({
                 'amount_tax': total_tax,
-                'amount_total': total_tax + order.amount_untaxed 
+                'amount_total': total_tax + order.amount_untaxed - discount_amt
                 })
 
     @api.model
