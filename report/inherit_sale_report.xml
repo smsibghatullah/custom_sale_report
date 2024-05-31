@@ -120,14 +120,14 @@
 				</t> -->
 			</xpath>
 
-            <xpath expr="//table[contains(@class, 'table') and contains(@class, 'table-sm') and contains(@class, 'o_main_table')]/thead/tr/th[5]" position="after">
+            <xpath expr="//table[contains(@class, 'table') and contains(@class, 'table-sm') and contains(@class, 'o_main_table')]/thead/tr" position="inside">
                 <t t-if="doc.discount_type == 'line'">
                     <th class="text-right"><strong>Discount Method</strong></th>
                     <th class="text-right"><strong>Discount Amount</strong></th>
                 </t>
             </xpath>
 
-            <xpath expr="//table[contains(@class, 'table') and contains(@class, 'table-sm') and contains(@class, 'o_main_table')]/tbody/tr/td[5]" position="after">
+            <xpath expr="//table[contains(@class, 'table') and contains(@class, 'table-sm') and contains(@class, 'o_main_table')]/tbody/tr" position="inside">
                 <t t-if="doc.discount_type == 'line'">
                     <td class="text-right">123</td>
                     <td class="text-right">456</td>
