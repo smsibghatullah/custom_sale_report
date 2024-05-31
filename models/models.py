@@ -12,6 +12,7 @@ class SaleOrder(models.Model):
             order.amount_total = order.amount_untaxed + order.amount_tax - order.discount_amt
 
     def subtract_discount_from_tax(self):
+        self._compute_amount_total_now()
         if self.env.context.get('skip_subtract_discount_from_tax'):
             return
        
@@ -57,7 +58,6 @@ class SaleOrder(models.Model):
         res = super(SaleOrder, self).write(vals)
         for order in self:
             order.subtract_discount_from_tax()
-            order._compute_amount_total_now()
         return res
         
         return res
