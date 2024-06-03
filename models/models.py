@@ -118,7 +118,7 @@ class AccountMove(models.Model):
                 return
             for move in self:
                 if move.discount_type != 'line':
-                    price_after_discount = (move.amount_untaxed + move.amount_tax) - move.discount_amt
+                    price_after_discount = (move.amount_untaxed + move.amount_tax) - move.discount_amount
                     move.with_context(skip_subtract_discount_from_tax=True).update({
                         'amount_total': price_after_discount
                     })
