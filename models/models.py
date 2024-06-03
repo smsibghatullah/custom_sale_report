@@ -34,7 +34,7 @@ class SaleOrder(models.Model):
                 })
 
                 for tax in line.tax_id:
-                    tax_amount = tax.amount / 100.0 * line.price_unit
+                    tax_amount = tax.amount / 100.0 * (line.price_unit* line.product_uom_qty)
                     total_tax += tax_amount
             if order.discount_type != 'line':
                 if order.discount_method == 'per':
@@ -148,7 +148,7 @@ class AccountMove(models.Model):
                     })
 
                     for tax in line.invoice_line_tax_ids:
-                        tax_amount = tax.amount / 100.0 * line.price_unit
+                        tax_amount = tax.amount / 100.0 * (line.price_unit * line.product_uom_qty)
                         total_tax += tax_amount
                 if move.discount_type != 'line':
                      if move.discount_method == 'per':
