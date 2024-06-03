@@ -44,6 +44,9 @@ class SaleOrder(models.Model):
                 for tax in line.tax_id:
                     tax_amount = tax.amount / 100.0 * price_after_discount
                     total_tax += tax_amount
+            order.with_context(skip_subtract_discount_from_tax=True).update({
+                    'amount_tax': total_tax,
+                })
 
 
 
@@ -116,12 +119,14 @@ class AccountMove(models.Model):
     def subtract_discount_from_tax(self):
             if self.env.context.get('skip_subtract_discount_from_tax'):
                 return
-            for move in self:
-                if move.discount_type != 'line':
-                    price_after_discount = (move.amount_untaxed + move.amount_tax) - move.discount_amount
-                    move.with_context(skip_subtract_discount_from_tax=True).update({
-                        'amount_total': price_after_discount
-                    })
+            
+            
+            if self.discount_type != 'line':
+                print(self,self.discount_amount,self.amount_total,"ooooooooooooooo")
+                price_after_discount = (self.amount_untaxed + self.amount_tax) - self.discount_amount
+                self.with_context(skip_subtract_discount_from_tax=True).update({
+                    'amount_total': price_after_discount
+                })
 
             for move in self:
                 total_tax = 0
@@ -148,7 +153,6 @@ class AccountMove(models.Model):
 
                 move.with_context(skip_subtract_discount_from_tax=True).update({
                     'amount_tax': total_tax,
-                    'amount_total': total_tax + move.amount_untaxed - discount_amt,
                 })
 
     @api.model
