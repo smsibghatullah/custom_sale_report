@@ -541,7 +541,7 @@
                                             <td t-attf-class="text-center {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                                 <span t-field="line.price_unit" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
                                             </td>
-                                            <t t-if="doc.discount_type == 'line'">
+                                            <t t-if="o.discount_type == 'line'">
                                                     <t t-if="line.discount_amount">
                                                         <td class="text-right">
                                                             <span t-field="line.discount_method"/>

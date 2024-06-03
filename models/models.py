@@ -13,10 +13,11 @@ class SaleOrder(models.Model):
         if self.env.context.get('skip_subtract_discount_from_tax'):
             return
         for order in self:
-            price_after_discount = (order.amount_untaxed + order.amount_tax) - order.discount_amount
-            order.with_context(skip_subtract_discount_from_tax=True).update({
-                'amount_total': price_after_discount
-            })
+            if order.discount_type != 'line':
+                price_after_discount = (order.amount_untaxed + order.amount_tax) - order.discount_amount
+                order.with_context(skip_subtract_discount_from_tax=True).update({
+                    'amount_total': price_after_discount
+                })
 
 
         for order in self:
@@ -116,11 +117,11 @@ class AccountMove(models.Model):
             if self.env.context.get('skip_subtract_discount_from_tax'):
                 return
             for move in self:
-                price_after_discount = (move.amount_untaxed + move.amount_tax) - move.discount_amt
-                print(price_after_discount,move.discount_amt,"pppppppppppppppppppppppppppp")
-                move.with_context(skip_subtract_discount_from_tax=True).update({
-                    'amount_total': price_after_discount
-                })
+                if move.discount_type != 'line':
+                    price_after_discount = (move.amount_untaxed + move.amount_tax) - move.discount_amt
+                    move.with_context(skip_subtract_discount_from_tax=True).update({
+                        'amount_total': price_after_discount
+                    })
 
             for move in self:
                 total_tax = 0
