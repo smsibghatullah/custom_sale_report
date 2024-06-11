@@ -81,7 +81,7 @@
 
 		<template id="bi_sale_purchase_discount_with_tax.report_sale_discount_inherit" inherit_id="sale.report_saleorder_document">
 			<xpath expr="//div[@id='total']/div/table/tr[1]" position="after" >
-				 <t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
+				 <!-- <t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
                 <tr class="border-black o_subtotal">
                     <td>
                         <strong>Discount</strong>
@@ -100,7 +100,7 @@
                         </td>
                     </t>
                 </tr>
-            </t>
+            </t> -->
 			</xpath>
 			<xpath expr="//div[@id='informations']" position="inside">
                 <!-- <div name="discount_type" class="col-auto mw-100 mb-2" t-if="doc.discount_type == 'line'">
