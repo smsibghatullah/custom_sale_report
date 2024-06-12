@@ -44,12 +44,12 @@
                                 <td class="text-right">
                                     <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>
                                 </td>
-								<td>
-								</td>
-                                <td class="text-right o_price_total">
-                                    <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
-                                    <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
-                                </td>
+                                <td class="text-center o_price_total">
+                                     <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                 </td>
+                                 <td class="text-center o_price_total">
+                                         <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                 </td>
                             </t>
                             <t t-if="line.display_type == 'line_section'">
                                 <td t-att-colspan="colspan">
@@ -81,7 +81,7 @@
 
 		<template id="bi_sale_purchase_discount_with_tax.report_sale_discount_inherit" inherit_id="sale.report_saleorder_document">
 			<xpath expr="//div[@id='total']/div/table/tr[1]" position="after" >
-				 <!-- <t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
+				 <t t-if="doc.discount_type == 'global' and doc.discount_amt != 0.00">
                 <tr class="border-black o_subtotal">
                     <td>
                         <strong>Discount</strong>
@@ -100,7 +100,7 @@
                         </td>
                     </t>
                 </tr>
-            </t> -->
+            </t>
 			</xpath>
 			<xpath expr="//div[@id='informations']" position="inside">
                 <!-- <div name="discount_type" class="col-auto mw-100 mb-2" t-if="doc.discount_type == 'line'">
@@ -313,13 +313,7 @@
                                                     <span t-field="line.product_uom_qty"/>
                                                     <span t-field="line.product_uom" groups="uom.group_uom"/>
                                                 </td>
-                                                <td class="text-center">
-                                                   <span t-field="line.discount_method"/>
-                                                    <span>45678</span>
-                                                    <span t-field="line.price_unit"/> 
-                                                    <span>12345</span>
-                                                    <span t-field="line.discount_amount"/>
-                                                </td>
+                                                
 
                                                 <td t-if="display_discount" class="text-center" groups="sale.group_discount_per_so_line">
                                                     <span t-field="line.discount"/>
@@ -370,30 +364,6 @@
                                                     <span t-field="doc.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
                                                 </td>
                                             </tr>
-                                         <!-- <t t-foreach="doc.amount_by_group" t-as="amount_by_group">
-                                                <tr style="">
-                                                    <t t-if="amount_by_group[3] == 1 and doc.amount_untaxed == amount_by_group[2]">
-                                                        <td>
-                                                            <span t-esc="amount_by_group[0]"/>
-                                                            <span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]"/></span>
-                                                        </td>
-                                                        <td class="text-right o_price_total">
-                                                            <span t-esc="amount_by_group[1]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
-                                                        
-                                                        </td>
-                                                    </t>
-                                                    <t t-else="">
-                                                        <td>
-                                                            <span t-esc="amount_by_group[0]"/>
-                                                        </td>
-                                                        <td class="text-right o_price_total">
-                                                            <span t-esc="doc.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
-                                                        </td>
-                                                    </t>
-                                                </tr>
-                                            </t> -->
-
-
                                             <t t-foreach="doc.get_aggregated_taxes().items()" t-as="tax_data">
                                                 <tr>
                                                     <td>
@@ -407,8 +377,6 @@
                                                     </td>
                                                 </tr>
                                             </t>
-
-
 
                                             <tr class="border-black o_total">
                                                 <td><strong>Total</strong></td>
