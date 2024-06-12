@@ -184,7 +184,7 @@
                                                     <span t-field="line.product_uom" groups="uom.group_uom"/>
                                                 </td>
                                                 
-                                                <td class="text-right">
+                                                <td class="text-center">
                                                     <span t-field="line.price_unit" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
                                                 </td>
                                                 <t t-if="doc.discount_type == 'line'">
