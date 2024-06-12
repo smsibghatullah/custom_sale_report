@@ -189,7 +189,7 @@
                                                 </td>
                                                 <t t-if="doc.discount_type == 'line'">
                                                         <t t-if="line.discount_amount">
-                                                            <td class="text-right" style="width:100px">
+                                                            <td class="text-center" style="width:100px">
                                                                 <span t-if="line.discount_method == 'per'">
                                                                     <t t-esc="line.discount_amount"/>%
                                                                 </span>
@@ -394,7 +394,7 @@
                                                     </td>
                                                     <t t-if="o.discount_type == 'line'">
                                             <t t-if="line.discount_amount">
-                                                <td class="text-right" style="width:100px">
+                                                <td class="text-center" style="width:100px">
                                                     <span t-if="line.discount_method == 'per'">
                                                         <t t-esc="line.discount_amount"/>%
                                                     </span>
