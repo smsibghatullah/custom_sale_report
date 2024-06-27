@@ -11,7 +11,8 @@ class SaleOrder(models.Model):
     def subtract_discount_from_tax(self):
        
         if self.env.context.get('skip_subtract_discount_from_tax'):
-            return
+           return
+
         for order in self:
             total_tax = 0 
             discount_amt = 0
@@ -33,25 +34,26 @@ class SaleOrder(models.Model):
                     'price_subtotal': taxes['total_excluded'],
                 })
 
-                # for tax in line.tax_id:
-                #     tax_amount = tax.amount / 100.0 * (line.price_unit* line.product_uom_qty)
-                #     total_tax += tax_amount
+                # Calculate total tax for the order
+                total_tax += sum(t.get('amount', 0.0) for t in taxes.get('taxes', []))
+            print(total_tax,"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
             if order.discount_type != 'line':
                 if order.discount_method == 'per':
                     order.with_context(skip_subtract_discount_from_tax=True).update({
-                            # 'amount_tax': total_tax,
-                            'amount_total': (order.amount_untaxed + order.amount_tax ) - order.amount_untaxed*(order.discount_amount or 0.0) / 100.0
-                        })
-                elif order.discount_method == 'fix':
-                       order.with_context(skip_subtract_discount_from_tax=True).update({
-                            # 'amount_tax': total_tax,
-                            'amount_total': (order.amount_untaxed + order.amount_tax ) - order.discount_amount 
-                        })
-            else :
-                      order.with_context(skip_subtract_discount_from_tax=True).update({
-                        # 'amount_tax': total_tax,
-                        'amount_total': (order.amount_untaxed + order.amount_tax ) - discount_amt
+                        'amount_tax': total_tax,
+                        'amount_total': (order.amount_untaxed + total_tax) - order.amount_untaxed * (order.discount_amount or 0.0) / 100.0
                     })
+                elif order.discount_method == 'fix':
+                    order.with_context(skip_subtract_discount_from_tax=True).update({
+                        'amount_tax': total_tax,
+                        'amount_total': (order.amount_untaxed + total_tax) - order.discount_amount 
+                    })
+            else:
+                order.with_context(skip_subtract_discount_from_tax=True).update({
+                    'amount_tax': total_tax,
+                    'amount_total': (order.amount_untaxed + total_tax) - discount_amt
+                })
+
 
 
 
@@ -124,9 +126,6 @@ class AccountMove(models.Model):
     def subtract_discount_from_tax(self):
             if self.env.context.get('skip_subtract_discount_from_tax'):
                 return
-            
-            
-           
 
             for move in self:
                 total_tax = 0
@@ -147,24 +146,24 @@ class AccountMove(models.Model):
                         'price_subtotal': taxes['total_excluded'],
                     })
 
-                    # for tax in line.invoice_line_tax_ids:
-                    #     tax_amount = tax.amount * (line.price_unit * line.product_uom_qty) / 100.0 
-                    #     total_tax += tax_amount
+                    # Calculate total tax for the move
+                    total_tax += sum(t.get('amount', 0.0) for t in taxes.get('taxes', []))
+
                 if move.discount_type != 'line':
-                     if move.discount_method == 'per':
-                            move.with_context(skip_subtract_discount_from_tax=True).update({
-                                    # 'amount_tax': total_tax,
-                                    'amount_total': (move.amount_untaxed +  move.amount_tax ) - move.amount_untaxed*(move.discount_amount or 0.0) / 100.0
-                                })
-                     elif move.discount_method == 'fix':
-                            move.with_context(skip_subtract_discount_from_tax=True).update({
-                                    # 'amount_tax': total_tax,
-                                    'amount_total': (move.amount_untaxed +  move.amount_tax ) - move.discount_amount 
-                                })
-                else :
-                      move.with_context(skip_subtract_discount_from_tax=True).update({
-                        # 'amount_tax': total_tax,
-                        'amount_total': (move.amount_untaxed +  move.amount_tax ) - discount_amt
+                    if move.discount_method == 'per':
+                        move.with_context(skip_subtract_discount_from_tax=True).update({
+                            'amount_tax': total_tax,
+                            'amount_total': (move.amount_untaxed + total_tax) - move.amount_untaxed * (move.discount_amount or 0.0) / 100.0
+                        })
+                    elif move.discount_method == 'fix':
+                        move.with_context(skip_subtract_discount_from_tax=True).update({
+                            'amount_tax': total_tax,
+                            'amount_total': (move.amount_untaxed + total_tax) - move.discount_amount 
+                        })
+                else:
+                    move.with_context(skip_subtract_discount_from_tax=True).update({
+                        'amount_tax': total_tax,
+                        'amount_total': (move.amount_untaxed + total_tax) - discount_amt
                     })
 
     @api.model
