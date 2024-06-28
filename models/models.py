@@ -114,7 +114,7 @@ class AccountMove(models.Model):
         aggregated_taxes = defaultdict(lambda: {'amount': 0.0, 'base': 0.0})
 
         for order in self:
-            total_order_amount = sum(line.price_unit * line.product_uom_qty for line in order.order_line)
+            total_order_amount = sum(line.price_unit * line.quantity for line in order.order_line)
 
             for line in order.invoice_line_ids:
                 # Calculate price after line discount if discount type is 'line'
@@ -122,22 +122,22 @@ class AccountMove(models.Model):
                     if line.discount_method == 'fix':
                         line_discount_amount = line.discount_amount
                     elif line.discount_method == 'per':
-                        line_discount_amount = (line.discount_amount / 100.0) * (line.price_unit * line.product_uom_qty)
+                        line_discount_amount = (line.discount_amount / 100.0) * (line.price_unit * line.quantity)
                     else:
                         line_discount_amount = 0.0
 
-                    price_after_discount = (line.price_unit * line.product_uom_qty) - line_discount_amount
+                    price_after_discount = (line.price_unit * line.quantity) - line_discount_amount
                     print(price_after_discount,"llllllllllllllllllllllllllllllllllllll")
 
                 # Calculate price after global discount if discount type is 'global'
                 elif order.discount_type == 'global':
-                    price_after_line_discount = line.price_unit * line.product_uom_qty
+                    price_after_line_discount = line.price_unit * line.quantity
                     proportionate_global_discount = (price_after_line_discount / total_order_amount) * order.discount_amt
                     price_after_discount = price_after_line_discount - proportionate_global_discount
                     print(price_after_discount,"gggggggggggggggggggggggggggggggggggggggggggg")
 
                 else:
-                    price_after_discount = line.price_unit * line.product_uom_qty
+                    price_after_discount = line.price_unit * line.quantity
 
                 taxes = line.tax_id.compute_all(price_after_discount, line.order_id.currency_id, 1, product=line.product_id, partner=line.order_id.partner_shipping_id)
 
@@ -150,7 +150,7 @@ class AccountMove(models.Model):
 
         return aggregated_taxes
 
-    def subtract_discount_from_tax(self):
+     def subtract_discount_from_tax(self):
         if self.env.context.get('skip_subtract_discount_from_tax'):
             return
 
@@ -162,11 +162,11 @@ class AccountMove(models.Model):
             for line in order.invoice_line_ids:
                 # Calculate price after line discount
                 if line.discount_method == 'fix':
-                    price_after_discount = (line.price_unit * line.product_uom_qty) - line.discount_amount
+                    price_after_discount = (line.price_unit * line.quantity) - line.discount_amount
                 elif line.discount_method == 'per':
-                    price_after_discount = (line.price_unit * line.product_uom_qty) * (1 - (line.discount_amount or 0.0) / 100.0)
+                    price_after_discount = (line.price_unit * line.quantity) * (1 - (line.discount_amount or 0.0) / 100.0)
                 else:
-                    price_after_discount = line.price_unit * line.product_uom_qty
+                    price_after_discount = line.price_unit * line.quantity
 
                 taxes = line.tax_id.compute_all(price_after_discount, line.order_id.currency_id, 1, product=line.product_id, partner=line.order_id.partner_shipping_id)
 
@@ -187,8 +187,6 @@ class AccountMove(models.Model):
             order.with_context(skip_subtract_discount_from_tax=True).update({
                 'amount_total': order_untaxed_after_discount + total_tax
             })
-
-
 
     @api.model
     def create(self, vals):
