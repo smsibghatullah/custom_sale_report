@@ -116,7 +116,7 @@ class AccountMove(models.Model):
         for order in self:
             total_order_amount = sum(line.price_unit * line.product_uom_qty for line in order.order_line)
 
-            for line in order.order_line:
+            for line in order.invoice_line_ids:
                 # Calculate price after line discount if discount type is 'line'
                 if order.discount_type == 'line':
                     if line.discount_method == 'fix':
@@ -159,7 +159,7 @@ class AccountMove(models.Model):
             discount_amt = 0
             order_untaxed_after_discount = order.amount_untaxed  # Initialize with untaxed amount
 
-            for line in order.order_line:
+            for line in order.invoice_line_ids:
                 # Calculate price after line discount
                 if line.discount_method == 'fix':
                     price_after_discount = (line.price_unit * line.product_uom_qty) - line.discount_amount
@@ -187,6 +187,7 @@ class AccountMove(models.Model):
             order.with_context(skip_subtract_discount_from_tax=True).update({
                 'amount_total': order_untaxed_after_discount + total_tax
             })
+
 
 
     @api.model
