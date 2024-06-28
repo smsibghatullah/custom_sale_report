@@ -113,12 +113,12 @@ class AccountMove(models.Model):
     def get_aggregated_taxes(self):
         aggregated_taxes = defaultdict(lambda: {'amount': 0.0, 'base': 0.0})
 
-        for order in self:
-            total_order_amount = sum(line.price_unit * line.quantity for line in order.order_line)
+        for invoice in self:
+            total_order_amount = sum(line.price_unit * line.quantity for line in invoice.invoice_line_ids)
 
-            for line in order.invoice_line_ids:
+            for line in invoice.invoice_line_ids:
                 # Calculate price after line discount if discount type is 'line'
-                if order.discount_type == 'line':
+                if invoice.discount_type == 'line':
                     if line.discount_method == 'fix':
                         line_discount_amount = line.discount_amount
                     elif line.discount_method == 'per':
@@ -127,22 +127,19 @@ class AccountMove(models.Model):
                         line_discount_amount = 0.0
 
                     price_after_discount = (line.price_unit * line.quantity) - line_discount_amount
-                    print(price_after_discount,"llllllllllllllllllllllllllllllllllllll")
 
                 # Calculate price after global discount if discount type is 'global'
-                elif order.discount_type == 'global':
+                elif invoice.discount_type == 'global':
                     price_after_line_discount = line.price_unit * line.quantity
-                    proportionate_global_discount = (price_after_line_discount / total_order_amount) * order.discount_amt
+                    proportionate_global_discount = (price_after_line_discount / total_order_amount) * invoice.discount_amt
                     price_after_discount = price_after_line_discount - proportionate_global_discount
-                    print(price_after_discount,"gggggggggggggggggggggggggggggggggggggggggggg")
 
                 else:
                     price_after_discount = line.price_unit * line.quantity
 
-                taxes = line.invoice_line_tax_ids.compute_all(price_after_discount, line.order_id.currency_id, 1, product=line.product_id, partner=line.order_id.partner_shipping_id)
+                taxes = line.invoice_line_tax_ids.compute_all(price_after_discount, invoice.currency_id, 1, product=line.product_id, partner=invoice.partner_id)
 
                 for tax in line.invoice_line_tax_ids:
-                    print(price_after_discount,"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
                     key = tax.name
                     tax_amount = (tax.amount / 100.0) * price_after_discount
                     aggregated_taxes[key]['amount'] += tax_amount
@@ -154,12 +151,12 @@ class AccountMove(models.Model):
         if self.env.context.get('skip_subtract_discount_from_tax'):
             return
 
-        for order in self:
+        for invoice in self:
             total_tax = 0
             discount_amt = 0
-            order_untaxed_after_discount = order.amount_untaxed  # Initialize with untaxed amount
+            invoice_untaxed_after_discount = invoice.amount_untaxed  # Initialize with untaxed amount
 
-            for line in order.invoice_line_ids:
+            for line in invoice.invoice_line_ids:
                 # Calculate price after line discount
                 if line.discount_method == 'fix':
                     price_after_discount = (line.price_unit * line.quantity) - line.discount_amount
@@ -168,7 +165,7 @@ class AccountMove(models.Model):
                 else:
                     price_after_discount = line.price_unit * line.quantity
 
-                taxes = line.invoice_line_tax_ids.compute_all(price_after_discount, line.order_id.currency_id, 1, product=line.product_id, partner=line.order_id.partner_shipping_id)
+                taxes = line.invoice_line_tax_ids.compute_all(price_after_discount, invoice.currency_id, 1, product=line.product_id, partner=invoice.partner_id)
 
                 line.update({
                     'price_tax': sum(t.get('amount', 0.0) for t in taxes.get('taxes', [])),
@@ -178,14 +175,14 @@ class AccountMove(models.Model):
 
                 total_tax += sum(t.get('amount', 0.0) for t in taxes.get('taxes', []))
 
-            if order.discount_type != 'line':
-                if order.discount_method == 'per':
-                    order_untaxed_after_discount -= order.amount_untaxed * (order.discount_amount or 0.0) / 100.0
-                elif order.discount_method == 'fix':
-                    order_untaxed_after_discount -= order.discount_amount
+            if invoice.discount_type != 'line':
+                if invoice.discount_method == 'per':
+                    invoice_untaxed_after_discount -= invoice.amount_untaxed * (invoice.discount_amount or 0.0) / 100.0
+                elif invoice.discount_method == 'fix':
+                    invoice_untaxed_after_discount -= invoice.discount_amount
 
-            order.with_context(skip_subtract_discount_from_tax=True).update({
-                'amount_total': order_untaxed_after_discount + total_tax
+            invoice.with_context(skip_subtract_discount_from_tax=True).update({
+                'amount_total': invoice_untaxed_after_discount + total_tax
             })
 
     @api.model
