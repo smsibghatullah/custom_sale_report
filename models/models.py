@@ -80,19 +80,18 @@ class SaleOrder(models.Model):
                     if line.discount_method == 'fix':
                         price_after_discount = (line.price_unit * line.product_uom_qty) - line.discount_amount
                     elif line.discount_method == 'per':
-                        price_after_discount = (line.price_unit * line.product_uom_qty) * (1 - (line.discount_amount or 0.0) / 100.0)
-                        discount_amt = (line.price_unit * line.product_uom_qty) - price_after_discount
+                        price_after_discount = (line.price_unit * line.product_uom_qty) - line.discount_amount
                     else:
                         price_after_discount = line.price_unit * line.product_uom_qty
                         discount_amt = 0.0
 
                     taxes = line.tax_id.compute_all(price_after_discount, line.order_id.currency_id, 1, product=line.product_id, partner=line.order_id.partner_shipping_id)
-
+                    print(price_after_discount,"ppppppppppppppppppppppppppppppppppppppppp")
                     for tax in line.tax_id:
                         key = tax.name
-                        tax_amount = tax.amount / 100.0 * price_after_discount
+                        tax_amount = (tax.amount / 100.0 )* (price_after_discount - line.discount_amount)
                         aggregated_taxes[key]['amount'] += tax_amount
-                        aggregated_taxes[key]['base'] += price_after_discount
+                        aggregated_taxes[key]['base'] += price_after_discount - line.discount_amount
 
             return aggregated_taxes
     
