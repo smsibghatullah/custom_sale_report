@@ -89,20 +89,22 @@ class SaleOrder(models.Model):
                         line_discount_amount = 0.0
 
                     price_after_discount = (line.price_unit * line.product_uom_qty) - line_discount_amount
+                    print(price_after_discount,"llllllllllllllllllllllllllllllllllllll")
 
                 # Calculate price after global discount if discount type is 'global'
                 elif order.discount_type == 'global':
-                    price_after_line_discount = order.amount_untaxed
-                    proportionate_global_discount = price_after_line_discount - order.discount_amt
-                    price_after_discount = proportionate_global_discount
+                    price_after_line_discount = line.price_unit * line.product_uom_qty
+                    proportionate_global_discount = (price_after_line_discount / total_order_amount) * order.discount_amt
+                    price_after_discount = price_after_line_discount - proportionate_global_discount
+                    print(price_after_discount,"gggggggggggggggggggggggggggggggggggggggggggg")
 
-                # If no valid discount type, just use the original price
                 else:
                     price_after_discount = line.price_unit * line.product_uom_qty
 
                 taxes = line.tax_id.compute_all(price_after_discount, line.order_id.currency_id, 1, product=line.product_id, partner=line.order_id.partner_shipping_id)
 
                 for tax in line.tax_id:
+                    print(price_after_discount,"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
                     key = tax.name
                     tax_amount = (tax.amount / 100.0) * price_after_discount
                     aggregated_taxes[key]['amount'] += tax_amount
