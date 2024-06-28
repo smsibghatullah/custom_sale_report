@@ -153,7 +153,6 @@ class AccountMove(models.Model):
 
         for invoice in self:
             total_tax = 0
-            discount_amt = 0
             invoice_untaxed_after_discount = invoice.amount_untaxed  # Initialize with untaxed amount
 
             for line in invoice.invoice_line_ids:
@@ -175,13 +174,22 @@ class AccountMove(models.Model):
 
                 total_tax += sum(t.get('amount', 0.0) for t in taxes.get('taxes', []))
 
+                # Update line's price_subtotal and price_total to reflect computed taxes
+                line.write({
+                    'price_subtotal': taxes['total_excluded'],
+                    'price_total': taxes['total_included'],
+                })
+
+            # Update the invoice's total amounts
             if invoice.discount_type != 'line':
                 if invoice.discount_method == 'per':
                     invoice_untaxed_after_discount -= invoice.amount_untaxed * (invoice.discount_amount or 0.0) / 100.0
                 elif invoice.discount_method == 'fix':
                     invoice_untaxed_after_discount -= invoice.discount_amount
 
-            invoice.with_context(skip_subtract_discount_from_tax=True).update({
+            invoice.with_context(skip_subtract_discount_from_tax=True).write({
+                'amount_untaxed': invoice_untaxed_after_discount,
+                'amount_tax': total_tax,
                 'amount_total': invoice_untaxed_after_discount + total_tax
             })
 
