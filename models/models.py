@@ -139,9 +139,9 @@ class AccountMove(models.Model):
                 else:
                     price_after_discount = line.price_unit * line.quantity
 
-                taxes = line.tax_id.compute_all(price_after_discount, line.order_id.currency_id, 1, product=line.product_id, partner=line.order_id.partner_shipping_id)
+                taxes = line.invoice_line_tax_ids.compute_all(price_after_discount, line.order_id.currency_id, 1, product=line.product_id, partner=line.order_id.partner_shipping_id)
 
-                for tax in line.tax_id:
+                for tax in line.invoice_line_tax_ids:
                     print(price_after_discount,"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
                     key = tax.name
                     tax_amount = (tax.amount / 100.0) * price_after_discount
@@ -168,7 +168,7 @@ class AccountMove(models.Model):
                 else:
                     price_after_discount = line.price_unit * line.quantity
 
-                taxes = line.tax_id.compute_all(price_after_discount, line.order_id.currency_id, 1, product=line.product_id, partner=line.order_id.partner_shipping_id)
+                taxes = line.invoice_line_tax_ids.compute_all(price_after_discount, line.order_id.currency_id, 1, product=line.product_id, partner=line.order_id.partner_shipping_id)
 
                 line.update({
                     'price_tax': sum(t.get('amount', 0.0) for t in taxes.get('taxes', [])),
