@@ -73,27 +73,42 @@ class SaleOrder(models.Model):
 
 
     def get_aggregated_taxes(self):
-            aggregated_taxes = defaultdict(lambda: {'amount': 0.0, 'base': 0.0})
+        aggregated_taxes = defaultdict(lambda: {'amount': 0.0, 'base': 0.0})
 
-            for order in self:
-                for line in order.order_line:
+        for order in self:
+            total_order_amount = sum(line.price_unit * line.product_uom_qty for line in order.order_line)
+
+            for line in order.order_line:
+                # Calculate price after line discount if discount type is 'line'
+                if order.discount_type == 'line':
                     if line.discount_method == 'fix':
-                        price_after_discount = (line.price_unit * line.product_uom_qty) - line.discount_amount
+                        line_discount_amount = line.discount_amount
                     elif line.discount_method == 'per':
-                        price_after_discount = (line.price_unit * line.product_uom_qty) - line.discount_amount
+                        line_discount_amount = (line.discount_amount / 100.0) * (line.price_unit * line.product_uom_qty)
                     else:
-                        price_after_discount = line.price_unit * line.product_uom_qty
-                        discount_amt = 0.0
+                        line_discount_amount = 0.0
 
-                    taxes = line.tax_id.compute_all(price_after_discount, line.order_id.currency_id, 1, product=line.product_id, partner=line.order_id.partner_shipping_id)
-                    print(price_after_discount,"ppppppppppppppppppppppppppppppppppppppppp")
-                    for tax in line.tax_id:
-                        key = tax.name
-                        tax_amount = (tax.amount / 100.0 )* (price_after_discount - line.discount_amount)
-                        aggregated_taxes[key]['amount'] += tax_amount
-                        aggregated_taxes[key]['base'] += price_after_discount - line.discount_amount
+                    price_after_discount = (line.price_unit * line.product_uom_qty) - line_discount_amount
 
-            return aggregated_taxes
+                # Calculate price after global discount if discount type is 'global'
+                elif order.discount_type == 'global':
+                    price_after_line_discount = order.amount_untaxed
+                    proportionate_global_discount = price_after_line_discount - order.discount_amt
+                    price_after_discount = proportionate_global_discount
+
+                # If no valid discount type, just use the original price
+                else:
+                    price_after_discount = line.price_unit * line.product_uom_qty
+
+                taxes = line.tax_id.compute_all(price_after_discount, line.order_id.currency_id, 1, product=line.product_id, partner=line.order_id.partner_shipping_id)
+
+                for tax in line.tax_id:
+                    key = tax.name
+                    tax_amount = (tax.amount / 100.0) * price_after_discount
+                    aggregated_taxes[key]['amount'] += tax_amount
+                    aggregated_taxes[key]['base'] += price_after_discount
+
+        return aggregated_taxes
     
    
 
