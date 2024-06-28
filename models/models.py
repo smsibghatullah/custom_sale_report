@@ -40,17 +40,17 @@ class SaleOrder(models.Model):
             if order.discount_type != 'line':
                 if order.discount_method == 'per':
                     order.with_context(skip_subtract_discount_from_tax=True).update({
-                        'amount_tax': total_tax,
+                        # 'amount_tax': total_tax,
                         'amount_total': (order.amount_untaxed + total_tax) - order.amount_untaxed * (order.discount_amount or 0.0) / 100.0
                     })
                 elif order.discount_method == 'fix':
                     order.with_context(skip_subtract_discount_from_tax=True).update({
-                        'amount_tax': total_tax,
+                        # 'amount_tax': total_tax,
                         'amount_total': (order.amount_untaxed + total_tax) - order.discount_amount 
                     })
             else:
                 order.with_context(skip_subtract_discount_from_tax=True).update({
-                    'amount_tax': total_tax,
+                    # 'amount_tax': total_tax,
                     'amount_total': (order.amount_untaxed + total_tax) - discount_amt
                 })
 
@@ -152,17 +152,17 @@ class AccountMove(models.Model):
                 if move.discount_type != 'line':
                     if move.discount_method == 'per':
                         move.with_context(skip_subtract_discount_from_tax=True).update({
-                            'amount_tax': total_tax,
+                            # 'amount_tax': total_tax,
                             'amount_total': (move.amount_untaxed + total_tax) - move.amount_untaxed * (move.discount_amount or 0.0) / 100.0
                         })
                     elif move.discount_method == 'fix':
                         move.with_context(skip_subtract_discount_from_tax=True).update({
-                            'amount_tax': total_tax,
+                            # 'amount_tax': total_tax,
                             'amount_total': (move.amount_untaxed + total_tax) - move.discount_amount 
                         })
                 else:
                     move.with_context(skip_subtract_discount_from_tax=True).update({
-                        'amount_tax': total_tax,
+                        # 'amount_tax': total_tax,
                         'amount_total': (move.amount_untaxed + total_tax) - discount_amt
                     })
 
