@@ -150,7 +150,7 @@ class AccountMove(models.Model):
 
         return aggregated_taxes
 
-     def subtract_discount_from_tax(self):
+    def subtract_discount_from_tax(self):
         if self.env.context.get('skip_subtract_discount_from_tax'):
             return
 
