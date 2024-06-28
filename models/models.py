@@ -188,9 +188,7 @@ class AccountMove(models.Model):
                     invoice_untaxed_after_discount -= invoice.discount_amount
 
             invoice.with_context(skip_subtract_discount_from_tax=True).write({
-                'amount_untaxed': invoice_untaxed_after_discount,
-                'amount_tax': total_tax,
-                'amount_total': invoice_untaxed_after_discount + total_tax
+                'amount_total': invoice.amount_untaxed + invoice.amount_tax - invoice.discount_amt
             })
 
     @api.model
