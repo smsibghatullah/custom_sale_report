@@ -97,8 +97,11 @@ class SaleOrder(models.Model):
                 taxes = line.tax_id.compute_all(price_after_discount, line.order_id.currency_id, 1, product=line.product_id, partner=line.order_id.partner_shipping_id)
 
                 for tax in line.tax_id:
-                    print(price_after_discount,"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
-                    key = tax.name
+                    user_language = order.partner_id.lang
+                    if user_language == 'lv_LV':  
+                        key = tax.tax_name_in_latvian
+                    else:
+                        key = tax.name
                     tax_amount = (tax.amount / 100.0) * price_after_discount
                     aggregated_taxes[key]['amount'] += tax_amount
                     aggregated_taxes[key]['base'] += price_after_discount
@@ -140,7 +143,11 @@ class AccountMove(models.Model):
                 taxes = line.invoice_line_tax_ids.compute_all(price_after_discount, invoice.currency_id, 1, product=line.product_id, partner=invoice.partner_id)
 
                 for tax in line.invoice_line_tax_ids:
-                    key = tax.name
+                    user_language = invoice.partner_id.lang  
+                    if user_language == 'lv_LV':  
+                        key = tax.tax_name_in_latvian
+                    else:
+                        key = tax.name
                     tax_amount = (tax.amount / 100.0) * price_after_discount
                     aggregated_taxes[key]['amount'] += tax_amount
                     aggregated_taxes[key]['base'] += price_after_discount
@@ -201,3 +208,11 @@ class AccountMove(models.Model):
             res = super(AccountMove, self).write(vals)
             self.subtract_discount_from_tax()
             return res
+
+
+
+class AccountTax(models.Model):
+    _inherit = 'account.tax'
+
+
+    tax_name_in_latvian = fields.Char(string="Tax in Latvian")

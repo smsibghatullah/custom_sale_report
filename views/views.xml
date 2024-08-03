@@ -48,20 +48,16 @@
             </field>
         </record>
 
-        <!-- <record id="view_invoice_line_tree_discount" model="ir.ui.view">
-          <field name="name">account.invoice_form</field>
-          <field name="model">account.invoice</field>
-          <field name="inherit_id" ref="account.invoice_form"/>
-          <field name="arch" type="xml">
-              <xpath expr="//field[@name='price_subtotal']" position="after">
-                  <field name="discount" string="Discount (%)"/>
-                  <field name="discount_amount" string="Discount Amount"/>
-              </xpath>
-              <xpath expr="//field[@name='price_total']" position="attributes">
-                  <attribute name="string">Total (After Discount)</attribute>
-              </xpath>
-          </field>
-      </record> -->
+        <record id="view_account_inherit_form" model="ir.ui.view">
+        <field name="name">account.tax.form.inherit.view</field>
+        <field name="inherit_id" ref="account.view_tax_form" />
+        <field name="model">account.tax</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='description']" position="after">
+                        <field name="tax_name_in_latvian" />
+            </xpath>
+        </field>
+    </record>
 
     </data>
 </odoo>
