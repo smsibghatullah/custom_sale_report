@@ -97,7 +97,7 @@ class SaleOrder(models.Model):
                 taxes = line.tax_id.compute_all(price_after_discount, line.order_id.currency_id, 1, product=line.product_id, partner=line.order_id.partner_shipping_id)
 
                 for tax in line.tax_id:
-                    user_language = order.partner_id.lang
+                    user_language = self.env.user.lang  
                     if user_language == 'lv_LV':  
                         key = tax.tax_name_in_latvian
                     else:
@@ -143,7 +143,7 @@ class AccountMove(models.Model):
                 taxes = line.invoice_line_tax_ids.compute_all(price_after_discount, invoice.currency_id, 1, product=line.product_id, partner=invoice.partner_id)
 
                 for tax in line.invoice_line_tax_ids:
-                    user_language = invoice.partner_id.lang  
+                    user_language = self.env.user.lang   
                     if user_language == 'lv_LV':  
                         key = tax.tax_name_in_latvian
                     else:
