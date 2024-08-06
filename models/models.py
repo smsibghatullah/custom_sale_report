@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 from datetime import timedelta
+from googletrans import Translator
 
 
 from collections import defaultdict
