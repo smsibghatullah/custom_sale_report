@@ -54,7 +54,7 @@
         <field name="model">account.tax</field>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='description']" position="after">
-                        <field name="tax_name_in_latvian" />
+                        <field name="tax_name_in_latvian" invisible="1" />
             </xpath>
         </field>
     </record>
