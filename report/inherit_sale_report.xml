@@ -203,9 +203,14 @@
                                                         </t>
                                                     </t>
                                         
-                                                <td class="text-center">
+                                                <!-- <td class="text-center">
                                                     <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>
+                                                </td> -->
+
+                                                <td t-attf-class="text-center">
+                                                    <span t-esc="' , '.join(map(lambda x: (x.tax_name_in_latvian if doc.partner_id.lang == 'lv_LV' else x.name), line.tax_id))"/>
                                                 </td>
+
                                                 <td class="text-center o_price_total">
                                                     <span t-field="line.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}" groups="account.group_show_line_subtotals_tax_excluded"/>
                                                 </td>
@@ -408,9 +413,13 @@
                                             </t>
                                         </t>
                                                    
-                                                    <td t-attf-class="text-center {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                                    <!-- <td t-attf-class="text-center {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                                         <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.invoice_line_tax_ids))"/>
+                                                    </td> -->
+                                                    <td t-attf-class="text-center {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                                       <span t-esc="' , '.join(map(lambda x: (x.tax_name_in_latvian if o.partner_id.lang == 'lv_LV' else x.name), line.invoice_line_tax_ids))"/>
                                                     </td>
+
                                                     <td class="text-center o_price_total">
                                                         <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
                                                     </td>
