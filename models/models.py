@@ -214,5 +214,27 @@ class AccountMove(models.Model):
 class AccountTax(models.Model):
     _inherit = 'account.tax'
 
+    tax_name_in_latvian = fields.Char(string="Tax in Latvian", compute='_compute_tax_name_in_latvian', store=True)
 
-    tax_name_in_latvian = fields.Char(string="Tax in Latvian")
+    @api.depends('name')
+    def _compute_tax_name_in_latvian(self):
+        translator = Translator()
+        for tax in self:
+            if tax.name:
+                translation = translator.translate(tax.name, src='en', dest='lv')
+                tax.tax_name_in_latvian = translation.text
+            else:
+                tax.tax_name_in_latvian = ''
+
+    @api.model
+    def create(self, vals):
+        record = super(AccountTax, self).create(vals)
+        if 'name' in vals:
+            record._compute_tax_name_in_latvian()
+        return record
+
+    def write(self, vals):
+        result = super(AccountTax, self).write(vals)
+        if 'name' in vals:
+            self._compute_tax_name_in_latvian()
+        return result
