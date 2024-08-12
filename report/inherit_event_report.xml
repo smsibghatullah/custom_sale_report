@@ -14,10 +14,10 @@
                                     <t t-if="o.event_id.event_logo">
                                         <div t-field="o.event_id.event_logo"/>
                                     </t>
-                                   <t t-if="o.event_id.organizer_id.company_id and o.event_id.organizer_id.company_id.logo_web">
-    <img t-att-src="'data:image/png;base64,%s' % (o.event_id.organizer_id.company_id.logo_web or '')"
-        style="max-height:1cm; max-width:4cm;" alt="Logotips"/>
+       <t t-if="o.event_id.organizer_id.company_id and o.user_has_groups('base.group_user')">
+    <img t-att-src="'data:image/png;base64,%s' % (o.event_id.organizer_id.company_id.logo_web or '')" style="max-height:1cm; max-width:4cm;" alt="Logotips"/>
 </t>
+
 
 
 
@@ -67,10 +67,10 @@
                         <div class="col-6 text-center" style="padding-left:7mm; border-right:1px dashed black; height: 149mm; padding-top: 7mm">
                             <div class="row" t-ignore="true">
                                 <div class="col-12">
-                               <t t-if="o.event_id.organizer_id.company_id and o.event_id.organizer_id.company_id.logo_web">
-    <img t-att-src="'data:image/png;base64,%s' % (o.event_id.organizer_id.company_id.logo_web or '')"
-        style="max-height:1cm; max-width:4cm;" alt="Logotips"/>
+       <t t-if="o.event_id.organizer_id.company_id and o.user_has_groups('base.group_user')">
+    <img t-att-src="'data:image/png;base64,%s' % (o.event_id.organizer_id.company_id.logo_web or '')" style="max-height:1cm; max-width:4cm;" alt="Logotips"/>
 </t>
+
 
                                          
 
