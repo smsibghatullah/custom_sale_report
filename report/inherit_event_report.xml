@@ -14,13 +14,11 @@
                                     <t t-if="o.event_id.event_logo">
                                         <div t-field="o.event_id.event_logo"/>
                                     </t>
-                                        <t t-if="o.event_id.organizer_id.company_id and not o.event_id.event_logo and o.event_id.organizer_id.is_company">
-                                            <img t-att-src="image_data_uri(o.event_id.organizer_id.company_id.logo_web)" style="max-height:1cm; max-width:4cm;" alt="Logotips"/>
-                                            </t>
-                                         <t t-else="">
-                                                <!-- You can display a default image or text here if the company logo is not available -->
-                                                <span>No Logo Available</span>
-                                        </t>
+                                     <t t-if="o.event_id.organizer_id.company_id and o.event_id.organizer_id.company_id.logo_web">
+                                        <img t-att-src="image_data_uri(o.event_id.organizer_id.company_id.logo_web)"
+                                            style="max-height:1cm; max-width:4cm;" alt="Logotips"/>
+                                    </t>
+
 
                                     <h5 t-field="o.event_id.name"/>
                                     <h5>( <i class="fa fa-clock-o" aria-label="Period" role="img" title="Period"></i> <span itemprop="startDate" t-field="o.event_id.with_context(tz=o.event_id.date_tz).date_begin" t-options='{"hide_seconds": True}'> </span> <i>to</i> <span itemprop="endDate" t-field="o.event_id.with_context(tz=o.event_id.date_tz).date_end" t-options='{"hide_seconds": True}'> </span> )</h5>
@@ -68,15 +66,11 @@
                         <div class="col-6 text-center" style="padding-left:7mm; border-right:1px dashed black; height: 149mm; padding-top: 7mm">
                             <div class="row" t-ignore="true">
                                 <div class="col-12">
-                                  <t t-if="o.event_id.organizer_id.company_id and not o.event_id.event_logo and o.event_id.organizer_id.is_company">
-                                           <div t-field="event.event_logo">
-                                            <img t-att-src="image_data_uri(o.event_id.organizer_id.company_id.logo_web)" style="max-height:1cm; max-width:4cm;" alt="Logotips"/>
-                                          </div>
-                                            </t>
-                                         <t t-else="">
-                                                <!-- You can display a default image or text here if the company logo is not available -->
-                                                <span>No Logo Available</span>
-                                        </t>
+                                 <t t-if="o.event_id.organizer_id.company_id and o.event_id.organizer_id.company_id.logo_web">
+    <img t-att-src="image_data_uri(o.event_id.organizer_id.company_id.logo_web)"
+         style="max-height:1cm; max-width:4cm;" alt="Logotips"/>
+</t>
+
 
                                     <h4 t-field="event.name"/>
                                     <h5>( <i class="fa fa-clock-o" aria-label="Period" role="img" title="Period"></i> <span itemprop="startDate" t-field="event.date_begin" t-options='{"hide_seconds": True}'> </span> <i>to</i> <span itemprop="endDate" t-field="event.date_end" t-options='{"hide_seconds": True}'> </span> )</h5>
