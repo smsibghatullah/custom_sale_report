@@ -65,10 +65,10 @@
                                 <div class="col-12">
                                     <span t-if="event.organizer_id.is_company and event.organizer_id.company_id.logo_web">
                                         <div t-field="event.event_logo">
-                                            <img t-att-src="image_data_uri(event.organizer_id.company_id.logo_web)" style="max-height:1cm; max-width:4cm;" alt="Logo"/>
+                                            <!-- <img t-att-src="image_data_uri(event.organizer_id.company_id.logo_web)" style="max-height:1cm; max-width:4cm;" alt="Logo"/> -->
                                         </div>
                                     </span>
-                                    <h4 t-field="event.name"/>
+                                    <!-- <h4 t-field="event.name"/> -->
                                     <h5>( <i class="fa fa-clock-o" aria-label="Period" role="img" title="Period"></i> <span itemprop="startDate" t-field="event.date_begin" t-options='{"hide_seconds": True}'> </span> <i>to</i> <span itemprop="endDate" t-field="event.date_end" t-options='{"hide_seconds": True}'> </span> )</h5>
                                 </div>
                             </div>

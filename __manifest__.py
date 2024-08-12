@@ -24,7 +24,7 @@
     'data': [
         'report/inherit_sale_report.xml',
         'views/views.xml',
-         'report/inherit_event_report.xml'
+        'report/inherit_event_report.xml'
     ],
     'demo': [
         'demo/demo.xml',
