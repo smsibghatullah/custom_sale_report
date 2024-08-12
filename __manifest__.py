@@ -19,11 +19,12 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-   'depends': ['base','sale','sale_management','account','purchase','stock','bi_sale_purchase_discount_with_tax'],
+   'depends': ['base','sale','sale_management','account','purchase','stock','bi_sale_purchase_discount_with_tax','event'],
 
     'data': [
         'report/inherit_sale_report.xml',
         'views/views.xml',
+         'report/inherit_event_report.xml'
     ],
     'demo': [
         'demo/demo.xml',
