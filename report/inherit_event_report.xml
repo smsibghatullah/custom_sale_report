@@ -14,10 +14,12 @@
                                     <t t-if="o.event_id.event_logo">
                                         <div t-field="o.event_id.event_logo"/>
                                     </t>
-                                     <t t-if="o.event_id.organizer_id.company_id and o.event_id.organizer_id.company_id.logo_web">
-                                        <img t-att-src="image_data_uri(o.event_id.organizer_id.company_id.logo_web)"
-                                            style="max-height:1cm; max-width:4cm;" alt="Logotips"/>
-                                    </t>
+                                   <t t-if="o.event_id.organizer_id.company_id and not o.env.user.has_group('base.group_system')">
+    <t t-if="o.event_id.organizer_id.company_id.check_access_rights('read', raise_exception=False)">
+        <img t-att-src="image_data_uri(o.event_id.organizer_id.company_id.logo_web)" style="max-height:1cm; max-width:4cm;" alt="Logo"/>
+    </t>
+</t>
+
 
 
                                     <h5 t-field="o.event_id.name"/>
@@ -66,10 +68,12 @@
                         <div class="col-6 text-center" style="padding-left:7mm; border-right:1px dashed black; height: 149mm; padding-top: 7mm">
                             <div class="row" t-ignore="true">
                                 <div class="col-12">
-                                 <t t-if="o.event_id.organizer_id.company_id and o.event_id.organizer_id.company_id.logo_web">
-    <img t-att-src="image_data_uri(o.event_id.organizer_id.company_id.logo_web)"
-         style="max-height:1cm; max-width:4cm;" alt="Logotips"/>
+<t t-if="o.event_id.organizer_id.company_id and not o.env.user.has_group('base.group_system')">
+    <t t-if="o.event_id.organizer_id.company_id.check_access_rights('read', raise_exception=False)">
+        <img t-att-src="image_data_uri(o.event_id.organizer_id.company_id.logo_web)" style="max-height:1cm; max-width:4cm;" alt="Logo"/>
+    </t>
 </t>
+
 
 
                                     <h4 t-field="event.name"/>
