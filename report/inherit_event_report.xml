@@ -15,7 +15,7 @@
                                         <div t-field="o.event_id.event_logo"/>
                                     </t>
                                     <t t-if="o.event_id.organizer_id.company_id and o.event_id.organizer_id.is_company and request.env.user.has_group('base.group_user')">
-                                        <img t-att-src="image_data_uri(o.event_id.organizer_id.company_id.logo_web)" style="max-height:1cm; max-width:4cm;" alt="Logo"/>
+                                        <img t-att-src="image_data_uri(o.event_id.organizer_id.company_id.logo)" style="max-height:1cm; max-width:4cm;" alt="Logo"/>
                                     </t>
                                     <t t-else="">
                                         <!-- Fallback or alternative content if the logo cannot be accessed -->
@@ -69,7 +69,7 @@
                             <div class="row" t-ignore="true">
                                 <div class="col-12">
                                     <t t-if="o.event_id.organizer_id.company_id and o.event_id.organizer_id.is_company and request.env.user.has_group('base.group_user')">
-                                        <img t-att-src="image_data_uri(o.event_id.organizer_id.company_id.logo_web)" style="max-height:1cm; max-width:4cm;" alt="Logo"/>
+                                        <img t-att-src="image_data_uri(o.event_id.organizer_id.company_id.logo)" style="max-height:1cm; max-width:4cm;" alt="Logo"/>
                                     </t>
                                     <t t-else="">
                                         <!-- Fallback or alternative content if the logo cannot be accessed -->
