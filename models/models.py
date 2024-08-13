@@ -100,9 +100,9 @@ class SaleOrder(models.Model):
                 for tax in line.tax_id:
                     user_language = order.partner_id.lang  
                     if user_language == 'lv_LV':  
-                        key = tax.tax_name_in_latvian
-                    else:
                         key = tax.name
+                    else:
+                        key = tax.tax_name_in_english
                     tax_amount = (tax.amount / 100.0) * price_after_discount
                     aggregated_taxes[key]['amount'] += tax_amount
                     aggregated_taxes[key]['base'] += price_after_discount
@@ -146,9 +146,9 @@ class AccountMove(models.Model):
                 for tax in line.invoice_line_tax_ids:
                     user_language = invoice.partner_id.lang   
                     if user_language == 'lv_LV':  
-                        key = tax.tax_name_in_latvian
-                    else:
                         key = tax.name
+                    else:
+                        key = tax.tax_name_in_english
                     tax_amount = (tax.amount / 100.0) * price_after_discount
                     aggregated_taxes[key]['amount'] += tax_amount
                     aggregated_taxes[key]['base'] += price_after_discount
@@ -215,27 +215,28 @@ class AccountMove(models.Model):
 class AccountTax(models.Model):
     _inherit = 'account.tax'
 
-    tax_name_in_latvian = fields.Char(string="Tax in Latvian", compute='_compute_tax_name_in_latvian', store=True)
+    tax_name_in_english = fields.Char(string="Tax in Latvian", compute='_compute_tax_name_in_english', store=True)
 
     @api.depends('name')
-    def _compute_tax_name_in_latvian(self):
+    def _compute_tax_name_in_english(self):
         translator = Translator()
         for tax in self:
             if tax.name:
-                translation = translator.translate(tax.name, src='en', dest='lv')
-                tax.tax_name_in_latvian = translation.text
+                translation = translator.translate(tax.name, src='lv', dest='en')
+                print(translation.text,"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+                tax.tax_name_in_english = translation.text
             else:
-                tax.tax_name_in_latvian = ''
+                tax.tax_name_in_english = ''
 
     @api.model
     def create(self, vals):
         record = super(AccountTax, self).create(vals)
         if 'name' in vals:
-            record._compute_tax_name_in_latvian()
+            record._compute_tax_name_in_english()
         return record
 
     def write(self, vals):
         result = super(AccountTax, self).write(vals)
         if 'name' in vals:
-            self._compute_tax_name_in_latvian()
+            self._compute_tax_name_in_english()
         return result
