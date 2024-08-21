@@ -101,7 +101,7 @@ class SaleOrder(models.Model):
                     user_language = order.partner_id.lang  
                     if user_language == 'lv_LV':  
                         key = tax.name
-                    else:
+                    elif user_language == 'en_US':
                         key = tax.tax_name_in_english
                     tax_amount = (tax.amount / 100.0) * price_after_discount
                     aggregated_taxes[key]['amount'] += tax_amount
@@ -145,11 +145,14 @@ class AccountMove(models.Model):
 
                 for tax in line.invoice_line_tax_ids:
                     user_language = invoice.partner_id.lang   
+                    print(user_language,"llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll")
+                    tax_amount = (tax.amount / 100.0) * price_after_discount
                     if user_language == 'lv_LV':  
                         key = tax.name
-                    else:
+                    elif user_language == 'en_US'::
                         key = tax.tax_name_in_english
-                    tax_amount = (tax.amount / 100.0) * price_after_discount
+                    print(key,"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+                    
                     aggregated_taxes[key]['amount'] += tax_amount
                     aggregated_taxes[key]['base'] += price_after_discount
 
