@@ -88,7 +88,10 @@ class SaleOrder(models.Model):
                 # Calculate price after global discount if discount type is 'global'
                 elif order.discount_type == 'global':
                     price_after_line_discount = line.price_unit * line.product_uom_qty
-                    proportionate_global_discount = (price_after_line_discount / total_order_amount) * order.discount_amt
+                    if total_order_amount == 0:
+                        proportionate_global_discount = 0  # or handle accordingly, e.g., log a warning
+                    else:
+                        proportionate_global_discount = (price_after_line_discount / total_order_amount) * order.discount_amt
                     price_after_discount = price_after_line_discount - proportionate_global_discount
                     print(price_after_discount,"gggggggggggggggggggggggggggggggggggggggggggg")
 
@@ -135,7 +138,10 @@ class AccountMove(models.Model):
                 # Calculate price after global discount if discount type is 'global'
                 elif invoice.discount_type == 'global':
                     price_after_line_discount = line.price_unit * line.quantity
-                    proportionate_global_discount = (price_after_line_discount / total_order_amount) * invoice.discount_amt
+                    if total_order_amount == 0:
+                        proportionate_global_discount = 0  # or handle accordingly, e.g., log a warning
+                    else:
+                        proportionate_global_discount = (price_after_line_discount / total_order_amount) * invoice.discount_amt
                     price_after_discount = price_after_line_discount - proportionate_global_discount
 
                 else:
@@ -149,7 +155,7 @@ class AccountMove(models.Model):
                     tax_amount = (tax.amount / 100.0) * price_after_discount
                     if user_language == 'lv_LV':  
                         key = tax.name
-                    elif user_language == 'en_US'::
+                    elif user_language == 'en_US':
                         key = tax.tax_name_in_english
                     print(key,"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
                     
